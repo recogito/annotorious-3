@@ -1,37 +1,29 @@
 export interface IIIFAnnotation {
-
-  '@context': string,
+  '@context': string;
 
   '@id': string;
 
   '@type': string;
 
-  motivation: string,
+  motivation: string;
 
   on: {
-
-    '@type': string | Array<string>, 
+    '@type': string | Array<string>;
 
     selector: {
+      '@type': string;
 
-      '@type': string,
+      value: string;
+    };
+  };
 
-      value: string
-
-    }
-
-  }
-
-  resource: IIIFResource
-
+  resource: IIIFResource;
 }
 
 export interface IIIFResource {
+  '@type': string | Array<string>;
 
-  '@type': string | Array<string>
+  format: string;
 
-  format: string
-  
-  chars?: string
-
+  chars?: string;
 }

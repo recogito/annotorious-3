@@ -18,7 +18,8 @@ export const Shapes = [
       }
     },
     state: {}
-  }, {
+  },
+  {
     id: '2',
     type: ShapeType.RECTANGLE,
     geometry: {
@@ -35,4 +36,4 @@ export const Shapes = [
     },
     state: {}
   }
-]
+];

@@ -2,12 +2,12 @@ import { ToolHandle } from '..';
 import type { Rectangle } from '../../shapes';
 
 export const editRectangle = (rect: Rectangle, handle: ToolHandle, delta: number[]): Rectangle => {
-  const initialBounds = rect.geometry.bounds; 
+  const initialBounds = rect.geometry.bounds;
 
   let [x0, y0] = [initialBounds.minX, initialBounds.minY];
   let [x1, y1] = [initialBounds.maxX, initialBounds.maxY];
 
-  const [ dx, dy ] = delta;
+  const [dx, dy] = delta;
 
   if (handle === ToolHandle.SHAPE) {
     x0 += dx;
@@ -36,14 +36,14 @@ export const editRectangle = (rect: Rectangle, handle: ToolHandle, delta: number
       case ToolHandle.TOP_LEFT:
       case ToolHandle.BOTTOM_LEFT: {
         x0 += dx;
-        break
+        break;
       }
 
       case ToolHandle.RIGHT:
       case ToolHandle.TOP_RIGHT:
       case ToolHandle.BOTTOM_RIGHT: {
         x1 += dx;
-        break
+        break;
       }
     }
   }
@@ -63,4 +63,4 @@ export const editRectangle = (rect: Rectangle, handle: ToolHandle, delta: number
       }
     }
   };
-}
+};

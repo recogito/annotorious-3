@@ -1,17 +1,13 @@
 import { type Bounds, boundsFromPoints, ShapeType } from '../../../core/src/shapes';
 
 interface SVGGeometry {
-
-  type: ShapeType
+  type: ShapeType;
 
   geometry: {
+    [key: string]: any;
 
-    [key: string]: any
-    
-    bounds: Bounds
-
-  }
-
+    bounds: Bounds;
+  };
 }
 
 export const parseSVG = (valueOrSelector: string | { value: string }): SVGGeometry => {
@@ -20,17 +16,15 @@ export const parseSVG = (valueOrSelector: string | { value: string }): SVGGeomet
   // TODO hack for testing - need to port the original Annotorious code for this
   const [a, b, str] = value.match(/(<polygon points=")([^"]*)/) || [];
 
-  if (!str)
-    return;
-  
-  const points = str.split(' ').map(p => p.split(',').map(parseFloat));
+  if (!str) return;
 
-  return { 
+  const points = str.split(' ').map((p) => p.split(',').map(parseFloat));
+
+  return {
     type: ShapeType.POLYGON,
-    geometry: { 
+    geometry: {
       points,
       bounds: boundsFromPoints(points)
     }
-  }
-
-}
+  };
+};

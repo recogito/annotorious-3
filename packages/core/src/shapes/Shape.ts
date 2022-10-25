@@ -1,49 +1,39 @@
 export enum ShapeType {
+  POLYGON = 'POLYGON',
 
-  POLYGON =  'POLYGON',
-  
   RECTANGLE = 'RECTANGLE'
-
 }
 
 export interface Shape {
+  id: string;
 
-  id: string
+  type: ShapeType;
 
-  type: ShapeType
+  data?: any;
 
-  data?: any
+  geometry: Geometry;
 
-  geometry: Geometry
-
-  state: ShapeState
-
+  state: ShapeState;
 }
 
 export interface Geometry {
-
-  bounds: Bounds
-
+  bounds: Bounds;
 }
 
 export interface Bounds {
+  minX: number;
 
-  minX: number
-  
-  minY: number
+  minY: number;
 
-  maxX: number
+  maxX: number;
 
-  maxY: number
-
+  maxY: number;
 }
 
 export interface ShapeState {
+  isHovered?: boolean;
 
-  isHovered?: boolean
+  isSelected?: boolean;
 
-  isSelected?: boolean
-
-  props?: Object
-
+  props?: Object;
 }

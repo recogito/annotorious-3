@@ -1,0 +1,25 @@
+{
+  "name": "@annotorious/monorepo",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Annotorious v3",
+  "author": "@rsimon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/recogito/annotorious.git"
+  },
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "lint": "turbo run lint",
+    "format": "prettier --write ."
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
+    "turbo": "^1.6.1"
+  }
+}

@@ -2,9 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { parseMediaFragment } from '@/mediafrags/mediaFragmentSelector';
 
 describe('MediaFragment', () => {
-
   it('should parse a fragment with pixel unit correctly', () => {
-    const fragment = 'xywh=pixel:160,120,320,240'
+    const fragment = 'xywh=pixel:160,120,320,240';
     const { x, y, w, h, bounds } = parseMediaFragment(fragment);
 
     expect(x).toBe(160);
@@ -42,5 +41,4 @@ describe('MediaFragment', () => {
       expect(error.message).toBe('Unsupported MediaFragment unit: percent');
     }
   });
-
 });

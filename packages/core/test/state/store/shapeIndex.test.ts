@@ -1,9 +1,8 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'vitest';
 import { Shapes } from './fixtures';
 import { ShapeIndex } from '@/state';
 
 describe('ShapeIndex', () => {
-
   it('should insert shapes correctly', () => {
     const index = new ShapeIndex();
     index.set(Shapes);
@@ -26,7 +25,7 @@ describe('ShapeIndex', () => {
     index.add(Shapes[0]);
     expect(index.size()).toBe(1);
 
-    index.add(Shapes[1])
+    index.add(Shapes[1]);
     expect(index.size()).toBe(2);
   });
 
@@ -61,5 +60,4 @@ describe('ShapeIndex', () => {
     index.remove(Shapes[0].id);
     expect(index.size()).toBe(1);
   });
-
 });

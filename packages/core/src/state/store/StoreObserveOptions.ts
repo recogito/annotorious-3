@@ -1,5 +1,3 @@
 export interface StoreObserveOptions {
-
-  ignoreHoverStateChanges?: boolean
-
+  ignoreHoverStateChanges?: boolean;
 }

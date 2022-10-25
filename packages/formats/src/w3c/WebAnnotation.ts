@@ -1,47 +1,37 @@
 export interface WebAnnotation {
-  
   id: string;
 
-  body: Object | Array<Object>
+  body: Object | Array<Object>;
 
-  target: AnnotationTarget | Array<AnnotationTarget>
-
+  target: AnnotationTarget | Array<AnnotationTarget>;
 }
 
 export interface AnnotationBody {
+  type?: string;
 
-  type?: string
+  purpose?: string;
 
-  purpose?: string
+  value?: string;
 
-  value?: string
-
-  created?: Date
+  created?: Date;
 
   creator?: {
+    id: string;
 
-    id: string
-
-    name?: string
-
-  }
-
+    name?: string;
+  };
 }
 
 export interface AnnotationTarget {
+  source: string;
 
-  source: string
-
-  selector: Selector | Array<Selector>
-
+  selector: Selector | Array<Selector>;
 }
 
 export interface Selector {
+  type: string;
 
-  type: string
+  conformsTo?: string;
 
-  conformsTo?: string
-
-  value: string
-
+  value: string;
 }

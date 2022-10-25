@@ -2,36 +2,29 @@ import { ShapeType, registerShapeUtil } from '..';
 import type { Bounds, Geometry, Shape, ShapeUtil } from '..';
 
 export interface Rectangle extends Shape {
-
-  geometry: RectangleGeometry
-
+  geometry: RectangleGeometry;
 }
 
 export interface RectangleGeometry extends Geometry {
+  x: number;
 
-  x: number
+  y: number;
 
-  y: number
+  w: number;
 
-  w: number
+  h: number;
 
-  h: number,
-
-  bounds: Bounds
-
+  bounds: Bounds;
 }
 
 const RectangleUtil: ShapeUtil<Rectangle> = {
-
-  area: (rect: Rectangle): number =>
-    rect.geometry.w * rect.geometry.h,
+  area: (rect: Rectangle): number => rect.geometry.w * rect.geometry.h,
 
   intersects: (rect: Rectangle, x: number, y: number): boolean =>
-    x >= rect.geometry.x && 
+    x >= rect.geometry.x &&
     x <= rect.geometry.x + rect.geometry.w &&
-    y >= rect.geometry.y  &&
+    y >= rect.geometry.y &&
     y <= rect.geometry.y + rect.geometry.h
-
-}
+};
 
 registerShapeUtil(ShapeType.RECTANGLE, RectangleUtil);

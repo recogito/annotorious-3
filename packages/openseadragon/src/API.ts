@@ -5,12 +5,11 @@ import { parseW3C } from '@annotorious/formats';
 import OSDPixiImageAnnotationLayer from './pixi/OSDPixiImageAnnotationLayer.svelte';
 
 export class API {
-
   anno: OSDPixiImageAnnotationLayer;
 
   constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
     this.anno = new OSDPixiImageAnnotationLayer({
-      target: viewer.container, 
+      target: viewer.container,
       props: { viewer }
     });
   }
@@ -18,6 +17,5 @@ export class API {
   setAnnotations = (annotations: any[]) => {
     const { parsed } = parseW3C(annotations);
     Store.set(parsed);
-  }
-
+  };
 }

@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { type Shape, ShapeType } from '@annotorious/core';
-import { parseMediaFragment } from '@/mediafrags/mediaFragmentSelector';
-import { parseSVG } from '@/svg/svgSelector';
+import { parseMediaFragment } from '../mediafrags/mediaFragmentSelector';
+import { parseSVG } from '../svg/svgSelector';
 import type { WebAnnotation } from '.';
 
 export const parseW3C = (

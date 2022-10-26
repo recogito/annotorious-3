@@ -2,6 +2,7 @@
   "name": "@annotorious/formats",
   "version": "0.0.1",
   "type": "module",
+  "main": "./src/index.ts",
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage"

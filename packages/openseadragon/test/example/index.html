@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Annotorious 3 | OpenSeadragon Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/openseadragon.min.js"></script>
+    <style>
+      html, body, #openseadragon {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }      
+    </style>
+    <script type="module">
+      import Annotorious from '../../src/index.ts';
+
+      window.onload = function() {
+        var viewer = OpenSeadragon({
+          id: "openseadragon",
+          prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@3.1/build/openseadragon/images/",
+          tileSources: {
+            type: "image",
+            url: "1280px-Hallstatt.jpg"
+          },
+          gestureSettingsTouch: {
+            pinchRotate: true
+          },
+        });   
+
+        var anno = Annotorious.init(viewer);
+
+        fetch('annotations.w3c.json').then(res => res.json()).then(annotations => {
+          anno.setAnnotations(annotations);
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="openseadragon"></div>
+  </body>
+</html>

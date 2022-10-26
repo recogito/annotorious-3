@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -23,10 +24,11 @@
     "svelte": "^3.49.0",
     "svelte-preprocess": "^4.10.7",
     "typescript": "^4.7.4",
-    "vitest": "^0.24.3"
+    "vite": "^3.2.0"
   },
   "dependencies": {
     "@annotorious/core": "file:../core",
+    "@annotorious/formats": "file:../formats",
     "openseadragon-wmts": "^0.7.1",
     "pixi.js": "^6.5.8",
     "rbush": "^3.0.1",

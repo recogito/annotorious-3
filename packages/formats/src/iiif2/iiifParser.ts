@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
 import { type Shape, ShapeType } from '@annotorious/core';
-import { parseMediaFragment } from '@/mediafrags/mediaFragmentSelector';
+import { parseMediaFragment } from '../mediafrags';
 import type { IIIFAnnotation } from '.';
-import { parseSVG } from '../svg/svgSelector';
+import { parseSVG } from '../svg';
 
 export const parseAnnotations = (
   annotations: IIIFAnnotation[]

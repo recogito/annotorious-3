@@ -53,7 +53,9 @@
   });
 </script>
 
-<svg class="a9s-gl-drawing-pane">
+<svg 
+  class="a9s-gl-drawing-pane" 
+  class:active={$Selection.length > 0}>
   <g transform={transform}>
     {#each $Selection as selected}
       {#if selected.type === ShapeType.RECTANGLE}
@@ -80,5 +82,10 @@
     width: 100%;
     height: 100%;
     outline: none;
+    pointer-events: none;
+  }
+
+  svg.active {
+    pointer-events: all;
   }
 </style>

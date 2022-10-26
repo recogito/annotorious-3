@@ -73,6 +73,8 @@
     canvas.height = offsetHeight;
     canvas.className = 'a9s-gl-canvas';
 
+    // canvas.addEventListener('pointerdown', e => console.log('click'));
+
     viewer.element.querySelector('.openseadragon-canvas').appendChild(canvas);
 
     const observer = new ResizeObserver(entries => {
@@ -88,6 +90,7 @@
       element: viewer.container,
 
       moveHandler: evt => {
+        // @ts-ignore
         const vpt = viewer.viewport.pointFromPixel(evt.position);
         const img = config.viewportToLayerPoint(vpt, viewer);
 

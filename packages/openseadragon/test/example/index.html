@@ -32,11 +32,7 @@
 
         var anno = Annotorious.init(viewer);
 
-        fetch('annotations.w3c.json')
-          .then((res) => res.json())
-          .then((annotations) => {
-            anno.setAnnotations(annotations);
-          });
+        anno.loadAnnotations('annotations.w3c.json');
       };
     </script>
   </head>

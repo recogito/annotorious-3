@@ -33,6 +33,10 @@
         var anno = Annotorious.init(viewer);
 
         anno.loadAnnotations('annotations.w3c.json');
+
+        anno.on('selectAnnotation', function(annotation) {
+          console.log('selected', annotation);
+        })
       };
     </script>
   </head>

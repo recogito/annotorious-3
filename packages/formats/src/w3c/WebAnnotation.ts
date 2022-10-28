@@ -4,6 +4,8 @@ export interface WebAnnotation {
   body: Object | Array<Object>;
 
   target: AnnotationTarget | Array<AnnotationTarget>;
+
+  [key: string]: any
 }
 
 export interface AnnotationBody {

@@ -9,6 +9,9 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    rollupOptions: {
+      external: ['openseadragon']
+    },
     lib: {
       entry: './src/intex.ts',
       name: 'Annotorious'

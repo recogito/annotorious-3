@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import OpenSeadragon from 'openseadragon';
   import * as PIXI from 'pixi.js';
-  import { Hover, Store, type Shape } from '@annotorious/core';
+  import { Hover, Selection, Store, type Shape } from '@annotorious/core';
 
   // OpenSeadragon viewer
   export let viewer: any;
@@ -73,9 +73,42 @@
     canvas.height = offsetHeight;
     canvas.className = 'a9s-gl-canvas';
 
-    // canvas.addEventListener('pointerdown', e => console.log('click'));
-
     viewer.element.querySelector('.openseadragon-canvas').appendChild(canvas);
+
+    canvas.addEventListener('pointermove', evt => { 
+      const xy = new OpenSeadragon.Point(evt.offsetX, evt.offsetY);
+      const vpt = viewer.viewport.pointFromPixel(xy);
+      const img = config.viewportToLayerPoint(vpt, viewer);
+
+      const hovered = Store.getAt(img.x, img.y);
+      if (hovered?.id !== $Hover?.shape.id) {
+        if (hovered)
+          Hover.set({ shape: hovered, originalEvent: evt});
+        else 
+          Hover.set(null);
+      } else {
+        // Should we update the originalEvent in the hover state?
+        if (hovered)
+          Hover.set({ shape: hovered, originalEvent: evt })
+      }
+    });
+
+    canvas.addEventListener('pointerdown', () => {
+      // Checks if the selection contains this is
+      const isSelected = (id: string) => 
+        $Selection.find(shape => shape.id === id);
+
+      // De-selects all selected shapes
+      const deselectAll = () => $Selection.forEach(shape => 
+        Store.setState(shape.id, { isSelected: false }));
+
+      if ($Hover && !isSelected($Hover.shape.id)) {
+        deselectAll();
+        Store.setState($Hover.shape.id, { isSelected: true });
+      } else if (!$Hover) {
+        deselectAll();
+      }
+    });
 
     const observer = new ResizeObserver(entries => {
       const { width, height } = entries[0].contentRect;
@@ -85,29 +118,6 @@
     });
 
     observer.observe(canvas);
-
-    new OpenSeadragon.MouseTracker({
-      element: viewer.container,
-
-      moveHandler: evt => {
-        // @ts-ignore
-        const vpt = viewer.viewport.pointFromPixel(evt.position);
-        const img = config.viewportToLayerPoint(vpt, viewer);
-
-        const hovered = Store.getAt(img.x, img.y);
-
-        if (hovered?.id !== $Hover?.shape.id) {
-          if (hovered)
-            Hover.set({ shape: hovered, originalEvent: evt.originalEvent as PointerEvent });
-          else 
-            Hover.set(null);
-        } else {
-          // Should we update the originalEvent in the hover state?
-          if (hovered)
-            Hover.set({ shape: hovered, originalEvent: evt.originalEvent as PointerEvent })
-        }
-      }
-    });
 
     renderer = PIXI.autoDetectRenderer({ 
       width: offsetWidth, 

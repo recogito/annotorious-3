@@ -33,7 +33,7 @@
    * to the given screen pointer coordinates.
    */
   const screenTransform = (px: number, py: number) => {
-    const { x, y } = viewer.viewport.viewerElementToImageCoordinates(new OpenSeadragon.Point(px, py));
+    const {x, y} = viewer.viewport.viewerElementToImageCoordinates(new OpenSeadragon.Point(px, py));
     return [x, y];
   }
 

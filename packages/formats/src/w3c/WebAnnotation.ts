@@ -5,7 +5,7 @@ export interface WebAnnotation {
 
   target: AnnotationTarget | Array<AnnotationTarget>;
 
-  [key: string]: any
+  [key: string]: any;
 }
 
 export interface AnnotationBody {

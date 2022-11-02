@@ -8,7 +8,6 @@ const observeOptions = {
 };
 
 export class CRUDAdapter {
-
   emitter: Emitter<CRUDEvents>;
 
   eventsEnabled: boolean;
@@ -19,42 +18,41 @@ export class CRUDAdapter {
     this.eventsEnabled = true;
 
     // Selected shapes, in their original state
-    const selected: { [ key: string ]: Shape } = {};
-  
-    store.observe(changes => {
+    const selected: { [key: string]: Shape } = {};
+
+    store.observe((changes) => {
       if (this.eventsEnabled) {
-        const { added, deleted, updated }  = changes;
-  
-        added.forEach(shape => {
+        const { added, deleted, updated } = changes;
+
+        added.forEach((shape) => {
           delete selected[shape.id];
           this.emitter.emit('createShape', shape);
         });
-  
-        deleted.forEach(shape => {
+
+        deleted.forEach((shape) => {
           delete selected[shape.id];
           this.emitter.emit('deleteShape', shape);
         });
-  
+
         updated.forEach(({ oldValue, newValue }) => {
           if (!oldValue.state.isSelected && newValue.state.isSelected) {
             // This shape was selected
             selected[newValue.id] = newValue;
-  
           } else if (oldValue.state.isSelected && !newValue.state.isSelected) {
             const stateOnSelection = selected[newValue.id];
-  
+
             if (!equalsIgnoreState(stateOnSelection, newValue)) {
               this.emitter.emit('updateShape', newValue, stateOnSelection);
             }
           }
         });
       }
-    }, observeOptions);    
+    }, observeOptions);
   }
 
   on = <E extends keyof CRUDEvents>(event: E, callback: CRUDEvents[E]): Unsubscribe => {
     return this.emitter.on(event, callback);
-  }
+  };
 
   get enabled() {
     return this.eventsEnabled;
@@ -63,5 +61,4 @@ export class CRUDAdapter {
   set enabled(enabled: boolean) {
     this.eventsEnabled = enabled;
   }
-  
 }

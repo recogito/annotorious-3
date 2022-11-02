@@ -34,27 +34,27 @@
 
         anno.loadAnnotations('annotations.w3c.json');
 
-        anno.on('createAnnotation', function(annotation) {
+        anno.on('createAnnotation', function (annotation) {
           console.log('created', annotation);
         });
 
-        anno.on('deleteAnnotation', function(annotation) {
+        anno.on('deleteAnnotation', function (annotation) {
           console.log('deleted', annotation);
         });
 
-        anno.on('updateAnnotation', function(annotation, previous) {
+        anno.on('updateAnnotation', function (annotation, previous) {
           console.log('updated', previous, 'with', annotation);
         });
 
-        anno.on('selectAnnotation', function(annotation) {
+        anno.on('selectAnnotation', function (annotation) {
           // console.log('selected', annotation);
         });
 
-        anno.on('mouseEnterAnnotation', function(annotation) {
+        anno.on('mouseEnterAnnotation', function (annotation) {
           // console.log('mouse enter', annotation);
         });
 
-        anno.on('mouseLeaveAnnotation', function(annotation) {
+        anno.on('mouseLeaveAnnotation', function (annotation) {
           // console.log('mouse leave', annotation);
         });
       };

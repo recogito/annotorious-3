@@ -18,7 +18,7 @@ export class API {
   constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
     this.annotationLayer = new OSDPixiImageAnnotationLayer({
       target: viewer.element,
-      props: { viewer },
+      props: { viewer }
     });
 
     this.drawingLayer = new OSDSVGDrawingLayer({
@@ -29,8 +29,8 @@ export class API {
     this.emitter = createNanoEvents<APIEvents>();
 
     let currentHover: Shape = null;
-    
-    Selection.subscribe(shapes => {
+
+    Selection.subscribe((shapes) => {
       const annotations = shapes.map(serializeW3C);
 
       // Legacy interop
@@ -39,7 +39,7 @@ export class API {
       }
     });
 
-    Hover.subscribe(hover => {
+    Hover.subscribe((hover) => {
       if (hover) {
         if (hover.shape.id !== currentHover?.id) {
           if (currentHover) {
@@ -58,21 +58,26 @@ export class API {
 
     this.crud = new CRUDAdapter(Store);
 
-    this.crud.on('createShape', shape =>
-      this.emitter.emit('createAnnotation', serializeW3C(shape)));
+    this.crud.on('createShape', (shape) =>
+      this.emitter.emit('createAnnotation', serializeW3C(shape))
+    );
 
-    this.crud.on('deleteShape', shape =>
-      this.emitter.emit('deleteAnnotation', serializeW3C(shape)));
+    this.crud.on('deleteShape', (shape) =>
+      this.emitter.emit('deleteAnnotation', serializeW3C(shape))
+    );
 
     this.crud.on('updateShape', (shape, previous) =>
-      this.emitter.emit('updateAnnotation', serializeW3C(shape), serializeW3C(previous)));
+      this.emitter.emit('updateAnnotation', serializeW3C(shape), serializeW3C(previous))
+    );
   }
 
-  loadAnnotations = (url: string) => fetch(url)
-    .then(response => response.json()).then((annotations: WebAnnotation[]) => {
-      this.setAnnotations(annotations);
-      return annotations;
-    });
+  loadAnnotations = (url: string) =>
+    fetch(url)
+      .then((response) => response.json())
+      .then((annotations: WebAnnotation[]) => {
+        this.setAnnotations(annotations);
+        return annotations;
+      });
 
   setAnnotations = (annotations: WebAnnotation[]) => {
     const { parsed } = parseW3C(annotations);

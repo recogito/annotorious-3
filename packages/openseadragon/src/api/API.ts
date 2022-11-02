@@ -1,5 +1,5 @@
 import { createNanoEvents, type Emitter } from 'nanoevents';
-import { Selection, Store } from '@annotorious/core';
+import { Hover, type Shape, Selection, Store, CRUDStore } from '@annotorious/core';
 import { parseW3C, serializeW3C, type WebAnnotation } from '@annotorious/formats';
 import type { APIOptions } from './APIOptions';
 import OSDPixiImageAnnotationLayer from '../pixi/OSDPixiImageAnnotationLayer.svelte';
@@ -7,6 +7,16 @@ import OSDSVGDrawingLayer from '../drawing/OSDSVGDrawingLayer.svelte';
 
 interface AnnotoriousEvents {
 
+  // User has changed the selection
+  changeSelection: (annotations: WebAnnotation[]) => void
+
+  // Mouse enters the given annotation
+  mouseEnterAnnotation: (annotation: WebAnnotation) => void
+
+  // Mouse leaves the given annotation
+  mouseLeaveAnnotation: (annotation: WebAnnotation) => void
+
+  // Legacy API, assumes single selection
   selectAnnotation: (annotation: WebAnnotation) => void
 
 }
@@ -30,13 +40,38 @@ export class API {
     });
 
     this.emitter = createNanoEvents<AnnotoriousEvents>();
+
+    let currentHover: Shape = null;
     
-    Selection.subscribe(value => {
-      if (value.length > 0) {
-        // For the time being, assume, the selection is always of length 1
-        const annotation = serializeW3C(value[0]);
-        this.emitter.emit('selectAnnotation', annotation);
+    Selection.subscribe(shapes => {
+      const annotations = shapes.map(serializeW3C);
+      this.emitter.emit('changeSelection', annotations);
+
+      // Legacy interop
+      if (annotations.length > 0) {
+        this.emitter.emit('selectAnnotation', annotations[annotations.length - 1]);
       }
+    });
+
+    Hover.subscribe(hover => {
+      if (hover) {
+        if (hover.shape.id !== currentHover?.id) {
+          if (currentHover) {
+            // Emit leave event first
+            this.emitter.emit('mouseLeaveAnnotation', serializeW3C(currentHover));
+          }
+
+          this.emitter.emit('mouseEnterAnnotation', serializeW3C(hover.shape));
+          currentHover = hover.shape;
+        }
+      } else if (currentHover) {
+        this.emitter.emit('mouseLeaveAnnotation', serializeW3C(currentHover));
+        currentHover = null;
+      }
+    });
+
+    CRUDStore.observe(changes => {
+      console.log('changes', changes);
     });
   }
 

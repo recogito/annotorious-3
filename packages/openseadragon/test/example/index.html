@@ -35,8 +35,16 @@
         anno.loadAnnotations('annotations.w3c.json');
 
         anno.on('selectAnnotation', function(annotation) {
-          console.log('selected', annotation);
-        })
+          // console.log('selected', annotation);
+        });
+
+        anno.on('mouseEnterAnnotation', function(annotation) {
+          // console.log('mouse enter', annotation);
+        });
+
+        anno.on('mouseLeaveAnnotation', function(annotation) {
+          // console.log('mouse leave', annotation);
+        });
       };
     </script>
   </head>

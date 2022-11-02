@@ -45,8 +45,9 @@
     Hover.set(null);
   }
 
-  const onDelete = (shape: Shape) =>
+  const onDelete = (shape: Shape) => {
     Store.remove(shape);
+  }
 
   onMount(() => {
     viewer.addHandler('update-viewport', onUpdateViewport);

@@ -29,6 +29,8 @@ const Store = () => {
         added.push(index.get(key));
       } else if (action === 'update') {
         updated.push({ oldValue, newValue: index.get(key) });
+      } else if (action === 'delete') {
+        deleted.push(oldValue);
       }
     }
 

@@ -72,6 +72,8 @@
         dispatch('save', shape)
       else if (evt.code === 'Escape')
         dispatch('cancel', initialShape);
+      else if (evt.code === 'Delete')
+        dispatch('delete', initialShape);
     };
     
     window.addEventListener('keydown', onKeyDown);

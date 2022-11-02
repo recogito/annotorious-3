@@ -23,6 +23,7 @@
   on:release
   on:save
   on:cancel
+  on:delete
 
   let:geometry={geometry}
   let:grab={grab}

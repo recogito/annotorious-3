@@ -149,6 +149,12 @@
       }
     });
 
+    changes.deleted.forEach(shape => {
+      const g = renderedObjects[shape.id];
+      g?.destroy();
+      delete renderedObjects[shape.id];
+    });
+
     refresh();
   });
 </script>

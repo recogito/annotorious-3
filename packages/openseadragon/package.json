@@ -2,6 +2,7 @@
   "name": "@annotorious/openseadragon",
   "version": "0.0.1",
   "type": "module",
+  "main": "./src/index.ts",
   "scripts": {
     "start": "vite",
     "build": "vite build",
@@ -27,8 +28,6 @@
     "vite": "^3.2.0"
   },
   "dependencies": {
-    "@annotorious/core": "file:../core",
-    "@annotorious/formats": "file:../formats",
     "nanoevents": "^7.0.1",
     "openseadragon-wmts": "^0.7.1",
     "pixi.js": "^6.5.8",

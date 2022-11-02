@@ -1,5 +1,5 @@
 import { createNanoEvents, type Emitter } from 'nanoevents';
-import { Hover, type Shape, Selection, Store, CRUDStore } from '@annotorious/core';
+import { Hover, type Shape, Selection, Store, CRUDAdapter } from '@annotorious/core';
 import { parseW3C, serializeW3C, type WebAnnotation } from '@annotorious/formats';
 import type { APIOptions } from './APIOptions';
 import OSDPixiImageAnnotationLayer from '../pixi/OSDPixiImageAnnotationLayer.svelte';
@@ -70,9 +70,19 @@ export class API {
       }
     });
 
-    CRUDStore.observe(changes => {
-      console.log('changes', changes);
+    const crud = CRUDAdapter(Store);
+
+    crud.on('createShape', shape => {
+      console.log('create', shape);
     });
+
+    crud.on('deleteShape', shape => {
+      console.log('delete', shape);
+    })
+
+    crud.on('updateShape', (shape, previous) => {
+      console.log('update', previous, 'with', shape);
+    })
   }
 
   loadAnnotations = (url: string) => fetch(url)

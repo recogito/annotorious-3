@@ -25,7 +25,6 @@
     "vitest": "^0.24.3"
   },
   "dependencies": {
-    "@annotorious/core": "file:../core",
     "nanoid": "^4.0.0"
   },
   "peerDependencies": {

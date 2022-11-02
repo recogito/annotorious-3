@@ -10,6 +10,7 @@
   },
   "license": "BSD-3-Clause",
   "scripts": {
+    "test": "npm run test --workspaces",
     "format": "prettier --write ."
   },
   "devDependencies": {

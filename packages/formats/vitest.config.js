@@ -5,7 +5,9 @@ import sveltePreprocess from 'svelte-preprocess';
 import path from 'path';
 
 export default defineConfig({
-  test: {},
+  test: {
+    watch: false
+  },
   plugins: [svelte({ preprocess: sveltePreprocess() })],
   resolve: {
     alias: {

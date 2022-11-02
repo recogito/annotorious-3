@@ -34,6 +34,18 @@
 
         anno.loadAnnotations('annotations.w3c.json');
 
+        anno.on('createAnnotation', function(annotation) {
+          console.log('created', annotation);
+        });
+
+        anno.on('deleteAnnotation', function(annotation) {
+          console.log('deleted', annotation);
+        });
+
+        anno.on('updateAnnotation', function(annotation, previous) {
+          console.log('updated', previous, 'with', annotation);
+        });
+
         anno.on('selectAnnotation', function(annotation) {
           // console.log('selected', annotation);
         });

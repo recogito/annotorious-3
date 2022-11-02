@@ -2,31 +2,18 @@ import { createNanoEvents, type Emitter } from 'nanoevents';
 import { Hover, type Shape, Selection, Store, CRUDAdapter } from '@annotorious/core';
 import { parseW3C, serializeW3C, type WebAnnotation } from '@annotorious/formats';
 import type { APIOptions } from './APIOptions';
+import type { APIEvents } from './APIEvents';
 import OSDPixiImageAnnotationLayer from '../pixi/OSDPixiImageAnnotationLayer.svelte';
 import OSDSVGDrawingLayer from '../drawing/OSDSVGDrawingLayer.svelte';
-
-interface AnnotoriousEvents {
-
-  // User has changed the selection
-  changeSelection: (annotations: WebAnnotation[]) => void
-
-  // Mouse enters the given annotation
-  mouseEnterAnnotation: (annotation: WebAnnotation) => void
-
-  // Mouse leaves the given annotation
-  mouseLeaveAnnotation: (annotation: WebAnnotation) => void
-
-  // Legacy API, assumes single selection
-  selectAnnotation: (annotation: WebAnnotation) => void
-
-}
 
 export class API {
   annotationLayer: OSDPixiImageAnnotationLayer;
 
   drawingLayer: OSDSVGDrawingLayer;
 
-  emitter: Emitter<AnnotoriousEvents>;
+  emitter: Emitter<APIEvents>;
+
+  crud: CRUDAdapter;
 
   constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
     this.annotationLayer = new OSDPixiImageAnnotationLayer({
@@ -39,13 +26,12 @@ export class API {
       props: { viewer }
     });
 
-    this.emitter = createNanoEvents<AnnotoriousEvents>();
+    this.emitter = createNanoEvents<APIEvents>();
 
     let currentHover: Shape = null;
     
     Selection.subscribe(shapes => {
       const annotations = shapes.map(serializeW3C);
-      this.emitter.emit('changeSelection', annotations);
 
       // Legacy interop
       if (annotations.length > 0) {
@@ -70,19 +56,16 @@ export class API {
       }
     });
 
-    const crud = CRUDAdapter(Store);
+    this.crud = new CRUDAdapter(Store);
 
-    crud.on('createShape', shape => {
-      console.log('create', shape);
-    });
+    this.crud.on('createShape', shape =>
+      this.emitter.emit('createAnnotation', serializeW3C(shape)));
 
-    crud.on('deleteShape', shape => {
-      console.log('delete', shape);
-    })
+    this.crud.on('deleteShape', shape =>
+      this.emitter.emit('deleteAnnotation', serializeW3C(shape)));
 
-    crud.on('updateShape', (shape, previous) => {
-      console.log('update', previous, 'with', shape);
-    })
+    this.crud.on('updateShape', (shape, previous) =>
+      this.emitter.emit('updateAnnotation', serializeW3C(shape), serializeW3C(previous)));
   }
 
   loadAnnotations = (url: string) => fetch(url)
@@ -93,10 +76,13 @@ export class API {
 
   setAnnotations = (annotations: WebAnnotation[]) => {
     const { parsed } = parseW3C(annotations);
+
+    this.crud.enabled = false;
     Store.set(parsed);
+    this.crud.enabled = true;
   };
 
-  on<E extends keyof AnnotoriousEvents>(event: E, callback: AnnotoriousEvents[E]) {
+  on<E extends keyof APIEvents>(event: E, callback: APIEvents[E]) {
     this.emitter.on(event, callback);
   }
 }

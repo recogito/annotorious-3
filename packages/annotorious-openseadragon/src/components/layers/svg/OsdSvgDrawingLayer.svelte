@@ -5,6 +5,8 @@
 
   export let viewer: OpenSeadragon.Viewer;
 
+  export let drawingEnabled: boolean = false;
+
   let overlay: OSDSVGOverlay;
 
   /**
@@ -42,12 +44,13 @@
       target: viewer.element.querySelector('.openseadragon-canvas'),
       props: {
         viewer,
+        drawingEnabled,
         viewTransform,
         screenTransform
       }
     });
   });
 
-  $: overlay && overlay.$set({ viewer, viewTransform, screenTransform });
+  $: overlay && overlay.$set({ viewer, drawingEnabled, viewTransform, screenTransform });
 </script>
 

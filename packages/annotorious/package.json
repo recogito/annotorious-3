@@ -27,6 +27,7 @@
   "dependencies": {
     "deep-equal": "^2.0.5",
     "nanoevents": "^7.0.1",
+    "nanoid": "^4.0.0",
     "rbush": "^3.0.1",
     "yjs": "^13.5.39"
   },

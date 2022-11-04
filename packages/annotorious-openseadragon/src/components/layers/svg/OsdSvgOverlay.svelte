@@ -1,8 +1,10 @@
 <script type="ts">
   import { onMount } from 'svelte';
-  import { Hover, Store, Selection, EditableRectangle, ShapeType, type Shape } from '@annotorious/annotorious';
+  import { Hover, Store, Selection, EditableRectangle, RubberbandRectangle, ShapeType, type Shape } from '@annotorious/annotorious';
 
   export let viewer: OpenSeadragon.Viewer;
+
+  export let drawingEnabled: boolean;
 
   export let viewTransform: Function;
   
@@ -11,6 +13,8 @@
   export let shapeTransform: Function = null;
 
   export let reverseShapeTransform: Function = null;
+
+  let svgElement: SVGElement; 
 
   let transform = null;
 
@@ -59,23 +63,30 @@
 
 <svg 
   class="a9s-gl-drawing-pane" 
-  class:active={$Selection.length > 0}>
+  class:active={$Selection.length > 0 || drawingEnabled}
+  bind:this={svgElement}>
   <g transform={transform}>
-    {#each $Selection as selected}
-      {#if selected.type === ShapeType.RECTANGLE}
-        <EditableRectangle
-          shape={selected} 
-          screenTransform={screenTransform} 
-          shapeTransform={shapeTransform}
-          reverseShapeTransform={reverseShapeTransform}
-          viewportScale={scale}
-          on:grab={onGrab} 
-          on:release={onRelease} 
-          on:save={({ detail }) => onComplete(detail)} 
-          on:cancel={({ detail }) => onComplete(detail)} 
-          on:delete={({ detail }) => onDelete(detail)} />
-      {/if}
-    {/each}
+    {#if $Selection.length > 0}
+      {#each $Selection as selected}
+        {#if selected.type === ShapeType.RECTANGLE}
+          <EditableRectangle
+            shape={selected} 
+            screenTransform={screenTransform} 
+            shapeTransform={shapeTransform}
+            reverseShapeTransform={reverseShapeTransform}
+            viewportScale={scale}
+            on:grab={onGrab} 
+            on:release={onRelease} 
+            on:save={({ detail }) => onComplete(detail)} 
+            on:cancel={({ detail }) => onComplete(detail)} 
+            on:delete={({ detail }) => onDelete(detail)} />
+        {/if}
+      {/each}
+    {:else if drawingEnabled} 
+      <RubberbandRectangle 
+        element={svgElement}
+        screenTransform={screenTransform} />
+    {/if}
   </g>
 </svg>
 

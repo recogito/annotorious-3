@@ -25,6 +25,16 @@ export class API {
       props: { viewer }
     });
 
+    document.addEventListener('keydown', (evt: KeyboardEvent) => {
+      if (evt.key === 'Shift')
+        this.drawingLayer.$set({ drawingEnabled: true });
+    });
+
+    document.addEventListener('keyup', (evt: KeyboardEvent) => {
+      if (evt.key === 'Shift')
+        this.drawingLayer.$set({ drawingEnabled: false });
+    });
+
     this.emitter = createNanoEvents<APIEvents>();
 
     let currentHover: Shape = null;

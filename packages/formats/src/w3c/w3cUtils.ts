@@ -1,4 +1,4 @@
-import type { Shape } from '@annotorious/core';
+import type { Shape } from '@annotorious/annotorious';
 import type { AnnotationBody } from './WebAnnotation';
 
 export const getBodies = (shape: Shape, purpose: string): AnnotationBody[] => {

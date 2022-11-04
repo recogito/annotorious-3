@@ -1,7 +1,7 @@
 {
   "name": "@annotorious/monorepo",
   "private": true,
-  "version": "0.0.1",
+  "version": "3.0.1",
   "description": "Annotorious v3 monorep",
   "author": "@rsimon",
   "repository": {

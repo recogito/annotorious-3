@@ -1,4 +1,4 @@
-import type { RectangleGeometry, Shape } from '@annotorious/core';
+import type { RectangleGeometry, Shape } from '@annotorious/annotorious';
 import type { WebAnnotation } from './WebAnnotation';
 
 export const serializeW3C = (s: Shape): WebAnnotation => {

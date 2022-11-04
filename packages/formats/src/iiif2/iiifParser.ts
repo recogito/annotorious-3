@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
-import { type Shape, ShapeType } from '@annotorious/core';
-import { parseMediaFragment } from '../mediafrags';
+import { type Shape, ShapeType } from '@annotorious/annotorious';
+import { parseMediaFragment } from '../mediafragments';
 import type { IIIFAnnotation } from '.';
 import { parseSVG } from '../svg';
 

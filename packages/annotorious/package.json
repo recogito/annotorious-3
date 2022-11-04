@@ -1,5 +1,5 @@
 {
-  "name": "@annotorious/formats",
+  "name": "@annotorious/annotorious",
   "version": "3.0.1",
   "type": "module",
   "main": "./src/index.ts",
@@ -17,15 +17,18 @@
   },
   "homepage": "https://annotorious.com",
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^1.1.0",
     "@tsconfig/svelte": "^3.0.0",
+    "@types/deep-equal": "^1.0.1",
+    "@types/rbush": "^3.0.0",
     "svelte": "^3.49.0",
-    "svelte-preprocess": "^4.10.7",
     "typescript": "^4.7.4",
-    "vitest": "^0.24.3"
+    "vitest": "^0.18.1"
   },
   "dependencies": {
-    "nanoid": "^4.0.0"
+    "deep-equal": "^2.0.5",
+    "nanoevents": "^7.0.1",
+    "rbush": "^3.0.1",
+    "yjs": "^13.5.39"
   },
   "peerDependencies": {
     "simplify-js": "^1.2.4"

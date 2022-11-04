@@ -1,4 +1,4 @@
-import { type Bounds, boundsFromPoints, ShapeType } from '@annotorious/core';
+import { type Bounds, boundsFromPoints, ShapeType } from '@annotorious/annotorious';
 
 interface SVGGeometry {
   type: ShapeType;

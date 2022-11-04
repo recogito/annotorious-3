@@ -1,0 +1,16 @@
+{
+  "name": "@annotorious/react-annotorious",
+  "version": "3.0.1",
+  "scripts": {
+    "test": "echo 'Skipping tests in react-annotorious package'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/recogito/annotorious.git"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/recogito/annotorious/issues"
+  },
+  "homepage": "https://annotorious.com"
+}

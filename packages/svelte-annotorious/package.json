@@ -1,8 +1,9 @@
 {
-  "name": "@annotorious/svelte-annotorious",
+  "name": "@annotorious/vue-annotorious",
   "version": "3.0.1",
+  "main": "./src/index.ts",
   "scripts": {
-    "test": "echo 'Skipping tests in react-annotorious package'"
+    "test": "echo 'Skipping tests in svelte-annotorious package'"
   },
   "repository": {
     "type": "git",
@@ -12,5 +13,18 @@
   "bugs": {
     "url": "https://github.com/recogito/annotorious/issues"
   },
-  "homepage": "https://annotorious.com"
+  "homepage": "https://annotorious.com",
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.1.0",
+    "@tsconfig/svelte": "^3.0.0",
+    "@types/openseadragon": "^3.0.4",
+    "@types/rbush": "^3.0.0",
+    "svelte": "^3.49.0",
+    "svelte-preprocess": "^4.10.7",
+    "typescript": "^4.7.4",
+    "vite": "^3.2.0"
+  },
+  "dependencies": {
+    "openseadragon": "^3.1.0"
+  }
 }

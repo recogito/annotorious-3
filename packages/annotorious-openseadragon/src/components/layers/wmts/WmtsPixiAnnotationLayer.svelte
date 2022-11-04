@@ -1,8 +1,7 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js';
-
-  import { ShapeType, simplify, type Polygon, type Rectangle, type Shape } from '@annotorious/annotorious';
-  import BaseAnnotationLayer from '../pixi/OSDPixiBaseAnnotationLayer.svelte';  
+  import { ShapeType, simplifyPolygon, type Polygon, type Rectangle, type Shape } from '@annotorious/annotorious';
+  import BaseAnnotationLayer from '../pixi/OsdPixiBaseAnnotationLayer.svelte';  
   import { latLonShapeToImageRegion } from './transform';
 
   export let viewer: any;
@@ -22,7 +21,7 @@
 
       return rect;
     } else if (translated.type === ShapeType.POLYGON) {
-      const simplified = simplify(translated as Polygon);
+      const simplified = simplifyPolygon(translated as Polygon);
       const flattend = simplified.geometry.points.reduce((flat, xy) => ([...flat, ...xy]), []);  
       
       const poly = new PIXI.Graphics();

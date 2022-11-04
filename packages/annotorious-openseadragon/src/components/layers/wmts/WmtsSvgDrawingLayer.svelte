@@ -3,12 +3,12 @@
   import OpenSeadragon from 'openseadragon';
   import { latLonShapeToImageRegion, imageRegionRectToLatLon } from './transform';
   import type { Shape, Rectangle } from '@annotorious/annotorious';
-  import OSDSVGOverlay from '../drawing/OSDSVGOverlay.svelte';
+  import OsdSvgOverlay from '../svg/OsdSvgOverlay.svelte';
 
   export let viewer: OpenSeadragon.Viewer;
   export let map: any;
 
-  let overlay: OSDSVGOverlay;
+  let overlay: OsdSvgOverlay;
 
   /**
    * The view transform computes the CSS transform that aligns
@@ -75,7 +75,7 @@
   }
 
   onMount(() => {
-    overlay = new OSDSVGOverlay({
+    overlay = new OsdSvgOverlay({
       target: viewer.element.querySelector('.openseadragon-canvas'),
       props: {
         viewer,

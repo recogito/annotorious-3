@@ -3,25 +3,24 @@ import { Hover, type Shape, Selection, Store, CRUDAdapter } from '@annotorious/a
 import { parseW3C, serializeW3C, type WebAnnotation } from '@annotorious/formats';
 import type { APIOptions } from './APIOptions';
 import type { APIEvents } from './APIEvents';
-import OSDPixiImageAnnotationLayer from '../pixi/OSDPixiImageAnnotationLayer.svelte';
-import OSDSVGDrawingLayer from '../drawing/OSDSVGDrawingLayer.svelte';
+import { OsdPixiImageAnnotationLayer, OsdSvgDrawingLayer } from '../components';
 
 export class API {
-  annotationLayer: OSDPixiImageAnnotationLayer;
+  annotationLayer: OsdPixiImageAnnotationLayer;
 
-  drawingLayer: OSDSVGDrawingLayer;
+  drawingLayer: OsdSvgDrawingLayer;
 
   emitter: Emitter<APIEvents>;
 
   crud: CRUDAdapter;
 
   constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
-    this.annotationLayer = new OSDPixiImageAnnotationLayer({
+    this.annotationLayer = new OsdPixiImageAnnotationLayer({
       target: viewer.element,
       props: { viewer }
     });
 
-    this.drawingLayer = new OSDSVGDrawingLayer({
+    this.drawingLayer = new OsdSvgDrawingLayer({
       target: viewer.element,
       props: { viewer }
     });

@@ -2,7 +2,7 @@
   import * as PIXI from 'pixi.js';
   import type OpenSeadragon from 'openseadragon';
   import { ShapeType, simplifyPolygon, type Polygon, type Rectangle, type Shape } from '@annotorious/annotorious';
-  import BaseAnnotationLayer from './OSDPixiBaseAnnotationLayer.svelte';
+  import BaseAnnotationLayer from './OsdPixiBaseAnnotationLayer.svelte';
 
   export let viewer: OpenSeadragon.Viewer;
 

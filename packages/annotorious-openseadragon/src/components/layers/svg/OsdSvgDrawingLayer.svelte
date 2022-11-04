@@ -1,7 +1,7 @@
 <script type="ts">
   import { onMount } from 'svelte';
   import OpenSeadragon from 'openseadragon';
-  import OSDSVGOverlay from './OSDSVGOverlay.svelte';
+  import OSDSVGOverlay from './OsdSvgOverlay.svelte';
 
   export let viewer: OpenSeadragon.Viewer;
 

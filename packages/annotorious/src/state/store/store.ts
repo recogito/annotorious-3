@@ -65,8 +65,10 @@ const Store = () => {
 
   const getAt = (x: number, y: number): Shape | null => tree.getAt(x, y);
 
-  const observe = (callback: (evt: StoreChangeEvent) => void, ignoreHoverStateChanges: boolean = false) =>
-    observers.push({ callback, ignoreHoverStateChanges });
+  const observe = (
+    callback: (evt: StoreChangeEvent) => void,
+    ignoreHoverStateChanges: boolean = false
+  ) => observers.push({ callback, ignoreHoverStateChanges });
 
   const remove = (shape: Shape | string) => index.remove(shape);
 

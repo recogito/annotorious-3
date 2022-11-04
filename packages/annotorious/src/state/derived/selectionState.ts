@@ -20,9 +20,9 @@ const Selection = readable<Shape[]>([], (set) => {
       ...withChangedState.filter((newValue) => !newValue.state.isSelected).map((s) => s.id),
 
       // ...because they were deleted while selected
-      ...deleted.filter(shape => currentSelection.find(s => s.id === shape.id)).map(s => s.id)
+      ...deleted.filter((shape) => currentSelection.find((s) => s.id === shape.id)).map((s) => s.id)
     ]);
-   
+
     if (selected.length + deselectedIds.size > 0) {
       currentSelection = [
         // Remove shapes that were disabled in this update

@@ -1,7 +1,11 @@
 import { ToolHandle } from '..';
 import type { Rectangle } from '../../../shapes';
 
-export const modifyRectangle = (rect: Rectangle, handle: ToolHandle, delta: number[]): Rectangle => {
+export const modifyRectangle = (
+  rect: Rectangle,
+  handle: ToolHandle,
+  delta: number[]
+): Rectangle => {
   const initialBounds = rect.geometry.bounds;
 
   let [x0, y0] = [initialBounds.minX, initialBounds.minY];

@@ -35,8 +35,6 @@ export interface ShapeState {
 
   isSelected?: boolean;
 
-  isBrushed?: boolean;
-
   isLockedBy?: string;
 
   props?: Object;

@@ -108,7 +108,8 @@ const Store = () => {
     remove,
     set,
     setState,
-    update
+    update,
+    doc: index.doc
   };
 };
 

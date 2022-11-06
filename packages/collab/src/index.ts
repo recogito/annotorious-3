@@ -1,10 +1,10 @@
-import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
+import { Store } from '@annotorious/annotorious';
 
-const doc = new Y.Doc();
+export const WebSocketClient = (room: string) => {
+  const provider = new WebsocketProvider('ws://localhost:1234', room, Store.doc);
 
-const provider = new WebsocketProvider('ws://localhost:1234', 'my-roomname', doc);
-
-provider.on('status', (event: { status: 'disconnected' | 'connecting' | 'connected' }) => {
-  console.log(event.status);
-});
+  provider.on('status', (event: { status: 'disconnected' | 'connecting' | 'connected' }) => {
+    console.log(event.status);
+  });
+}

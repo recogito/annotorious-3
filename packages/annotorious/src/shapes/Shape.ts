@@ -31,11 +31,9 @@ export interface Bounds {
 }
 
 export interface ShapeState {
-  isHovered?: boolean;
+  isHoveredBy?: string[];
 
-  isSelected?: boolean;
-
-  isLockedBy?: string;
+  isSelectedBy?: string;
 
   props?: Object;
 }

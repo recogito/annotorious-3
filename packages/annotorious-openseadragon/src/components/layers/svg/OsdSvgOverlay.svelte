@@ -38,14 +38,7 @@
     // Live state from the store
     const { state } = Store.get(shape.id);
 
-    Store.update(shape.id, { 
-      ...shape,
-      state: {
-        ...state,
-        isSelected: false
-      }
-    });
-
+    Selection.setSelected(shape, false);
     Hover.set(null);
   }
 

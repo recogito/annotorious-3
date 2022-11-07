@@ -31,10 +31,10 @@ export class CRUDAdapter {
         });
 
         updated.forEach(({ oldValue, newValue }) => {
-          if (!oldValue.state.isSelected && newValue.state.isSelected) {
+          if (!oldValue.state.isSelectedBy && newValue.state.isSelectedBy) {
             // This shape was selected
             selected[newValue.id] = newValue;
-          } else if (oldValue.state.isSelected && !newValue.state.isSelected) {
+          } else if (oldValue.state.isSelectedBy && !newValue.state.isSelectedBy) {
             const stateOnSelection = selected[newValue.id];
 
             if (!equalsIgnoreState(stateOnSelection, newValue)) {

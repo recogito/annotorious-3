@@ -100,7 +100,7 @@
 
       // De-selects all selected shapes
       const deselectAll = () => $Selection.forEach(shape => 
-        Store.setState(shape.id, { isSelected: false }));
+        Store.setState(shape.id, { isSelectedBy: undefined }));
 
       if ($Hover && !isSelected($Hover.shape.id)) {
         deselectAll();
@@ -135,7 +135,7 @@
     changes.added.forEach(drawShape);
 
     changes.updated.forEach(({ oldValue, newValue }) => {
-      if ((oldValue.state.isSelectedBy === CurrentUser) && !(newValue.state.isSelectedBy === CurrentUser)) {
+      if ((oldValue.state.isSelectedBy === $CurrentUser.id) && !(newValue.state.isSelectedBy === $CurrentUser.id)) {
         // Deselect - restore shape
         drawShape(newValue);
       } else {
@@ -144,7 +144,7 @@
         delete renderedObjects[oldValue.id];
 
         // Add new (unless selected!)
-        if (!(newValue.state.isSelectedBy === CurrentUser))
+        if (!(newValue.state.isSelectedBy === $CurrentUser.id))
           drawShape(newValue);
       }
     });

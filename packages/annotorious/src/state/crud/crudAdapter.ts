@@ -22,7 +22,6 @@ export class CRUDAdapter {
 
         added.forEach((shape) => {
           delete selected[shape.id];
-
           this.emitter.emit('createShape', shape);
         });
 

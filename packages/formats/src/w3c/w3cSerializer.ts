@@ -8,7 +8,7 @@ export const serializeW3C = (s: Shape): WebAnnotation => {
     '@context': 'http://www.w3.org/ns/anno.jsonld',
     id: s.id,
     type: 'Annotation',
-    body: s.data.body,
+    body: s.data?.body,
     target: {
       source: '',
       selector: {

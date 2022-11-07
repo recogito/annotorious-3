@@ -1,7 +1,13 @@
+import type { AnonymousLocalUser } from '../state/users';
+
 export interface Shape {
   id: string;
 
   type: ShapeType;
+
+  creator?: string | typeof AnonymousLocalUser; 
+
+  created?: Date;
 
   data?: any;
 

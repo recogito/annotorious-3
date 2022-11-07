@@ -1,6 +1,7 @@
 <script type="ts">
   import { onMount } from 'svelte';
   import { nanoid } from 'nanoid';
+  import { CurrentUser, Store } from '../../../state';
   import { ShapeType, type Rectangle } from '../../../shapes';
 
   export let element: SVGElement;
@@ -14,24 +15,24 @@
   let anchor: [number, number];
 
   onMount(() => {
-    element.addEventListener('pointerdown', (evt: PointerEvent) => {
+    const onPointerDown = (evt: PointerEvent) => {
       evt.preventDefault();
 
       drawing = true;
 
       origin = screenTransform(evt.offsetX, evt.offsetY);
       anchor = origin;
-    });
+    };
 
-    element.addEventListener('pointermove', (evt: PointerEvent) => {
+    const onPointerMove = (evt: PointerEvent) => {
       if (drawing) {
         evt.preventDefault();
 
         anchor = screenTransform(evt.offsetX, evt.offsetY);
       }
-    });
+    };
 
-    element.addEventListener('pointerup', (evt: PointerEvent) => {
+    const onPointerUp = () => {
       drawing = false;
 
       const [minX, minY] = origin;
@@ -43,7 +44,9 @@
 
       const shape: Rectangle = {
         id: nanoid(),
-        type: ShapeType.RECTANGLE,  
+        type: ShapeType.RECTANGLE, 
+        creator: $CurrentUser.id,
+        created: new Date(),
         geometry: {
           bounds: {
             minX, 
@@ -56,8 +59,18 @@
         state: {}
       }
 
-      console.log(shape);
-    });
+      Store.add(shape);
+    }
+
+    element.addEventListener('pointerdown', onPointerDown);
+    element.addEventListener('pointermove', onPointerMove);
+    element.addEventListener('pointerup', onPointerUp);
+
+    return () => {
+      element.removeEventListener('pointerdown', onPointerDown);
+      element.removeEventListener('pointermove', onPointerMove);
+      element.removeEventListener('pointerup', onPointerUp); 
+    }
   });
 </script>
 

@@ -44,10 +44,14 @@ const Selection = () => {
     }
   }, true);
 
-  const setSelected = (shape: Shape, selected: boolean) =>
-    Store.setState(shape.id, { isSelectedBy: selected ? Env.currentUser.id : undefined });
+  // For convenience
+  const select = (shape: Shape) =>
+    Store.setState(shape.id, { isSelectedBy: Env.currentUser.id });
 
-  return { subscribe, setSelected };
+  const deselect = (shape: Shape) =>
+    Store.setState(shape.id, { isSelectedBy: undefined });
+
+  return { subscribe, select, deselect };
 
 }
 

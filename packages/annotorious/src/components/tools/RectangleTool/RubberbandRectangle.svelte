@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { nanoid } from 'nanoid';
   import { Env } from '../../../environment';
-  import { Store } from '../../../state';
+  import { Store, Selection } from '../../../state';
   import { ShapeType, type Rectangle } from '../../../shapes';
 
   export let element: SVGElement;
@@ -61,6 +61,7 @@
       }
 
       Store.add(shape);
+      Selection.select(shape);
     }
 
     element.addEventListener('pointerdown', onPointerDown);

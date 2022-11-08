@@ -104,7 +104,7 @@
 
       if ($Hover && !isSelected($Hover.shape.id)) {
         deselectAll();
-        Selection.setSelected($Hover.shape, true);
+        Selection.select($Hover.shape);
       } else if (!$Hover) {
         deselectAll();
       }
@@ -135,8 +135,6 @@
     changes.added.forEach(drawShape);
 
     changes.updated.forEach(({ oldValue, newValue }) => {
-      console.log('updated', oldValue, newValue);
-      
       if ((oldValue.state.isSelectedBy === Env.currentUser.id) && !(newValue.state.isSelectedBy === Env.currentUser.id)) {
         // Deselect - restore shape
         drawShape(newValue);

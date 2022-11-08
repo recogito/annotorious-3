@@ -1,5 +1,5 @@
 import { createNanoEvents, type Emitter } from 'nanoevents';
-import { type User, CurrentUser, Hover, type Shape, Selection, Store, CRUDAdapter } from '@annotorious/annotorious';
+import { type User, Env, Hover, type Shape, Selection, Store, CRUDAdapter } from '@annotorious/annotorious';
 import { parseW3C, serializeW3C, type WebAnnotation } from '@annotorious/formats';
 import type { APIOptions } from './APIOptions';
 import type { APIEvents } from './APIEvents';
@@ -14,12 +14,7 @@ export class API {
 
   crud: CRUDAdapter;
 
-  currentUser: User | null;
-
-  constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
-    this.currentUser = null;
-    CurrentUser.subscribe(user => this.currentUser = user);
-    
+  constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {    
     this.annotationLayer = new OsdPixiImageAnnotationLayer({
       target: viewer.element,
       props: { viewer }
@@ -101,8 +96,8 @@ export class API {
     this.crud.enabled = true;
   };
 
-  setAuthInfo = (auth: { id: string, displayName?: string } | undefined) =>
-    CurrentUser.set(auth);
+  setAuthInfo = (auth: User | undefined) =>
+    Env.currentUser = auth;
 
   on<E extends keyof APIEvents>(event: E, callback: APIEvents[E]) {
     this.emitter.on(event, callback);

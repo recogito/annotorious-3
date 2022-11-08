@@ -1,7 +1,8 @@
 <script type="ts">
   import { onMount } from 'svelte';
   import { nanoid } from 'nanoid';
-  import { CurrentUser, Store } from '../../../state';
+  import { Env } from '../../../environment';
+  import { Store } from '../../../state';
   import { ShapeType, type Rectangle } from '../../../shapes';
 
   export let element: SVGElement;
@@ -45,7 +46,7 @@
       const shape: Rectangle = {
         id: nanoid(),
         type: ShapeType.RECTANGLE, 
-        creator: $CurrentUser.id,
+        creator: Env.currentUser.id,
         created: new Date(),
         geometry: {
           bounds: {

@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import Store from '../store/store';
-import { CurrentUser } from '../users';
+import { Env } from '../../environment';
 import type { Shape } from '../../shapes';
 
 const Selection = () => {
@@ -16,7 +16,7 @@ const Selection = () => {
     if (withChangedState.length + deleted.length > 0) {
       update((currentSelection: Shape[]) => {
         // Shapes that have changed to 'selected' in this update
-        const selected = withChangedState.filter((newValue) => newValue.state.isSelectedBy === CurrentUser);
+        const selected = withChangedState.filter((newValue) => newValue.state.isSelectedBy === Env.currentUser.id);
 
         // IDs for the shapes that were 'deselected' in this update...
         const deselectedIds = new Set([
@@ -45,7 +45,7 @@ const Selection = () => {
   }, true);
 
   const setSelected = (shape: Shape, selected: boolean) =>
-    Store.setState(shape.id, { isSelectedBy: selected ? CurrentUser : undefined });
+    Store.setState(shape.id, { isSelectedBy: selected ? Env.currentUser.id : undefined });
 
   return { subscribe, setSelected };
 

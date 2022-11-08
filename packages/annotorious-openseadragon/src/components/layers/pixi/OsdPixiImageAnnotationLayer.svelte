@@ -1,17 +1,26 @@
 <script lang="ts">
   import * as PIXI from 'pixi.js';
   import type OpenSeadragon from 'openseadragon';
-  import { ShapeType, simplifyPolygon, type Polygon, type Rectangle, type Shape } from '@annotorious/annotorious';
+  import { Env, ShapeType, simplifyPolygon, type Polygon, type Rectangle, type Shape } from '@annotorious/annotorious';
   import BaseAnnotationLayer from './OsdPixiBaseAnnotationLayer.svelte';
 
   export let viewer: OpenSeadragon.Viewer;
+
+  const getColor = (s: Shape) => {
+    if (s.state.isSelectedBy && s.state.isSelectedBy !== Env.currentUser.id) {
+      return 0xff0000;
+    } else {
+      return 0x1a73e8;
+    }
+  }
 
   const drawShape = (shape: Shape) => {
     if (shape.type === ShapeType.RECTANGLE) {
       const { x, y, w, h } = (shape as Rectangle).geometry;
 
       const rect = new PIXI.Graphics();
-      rect.beginFill(0x1a73e8, 0.25);
+      // rect.beginFill(0x1a73e8, 0.25);
+      rect.beginFill(getColor(shape), 0.25);
       rect.drawRect(x, y, w, h);
       rect.endFill();
 
@@ -21,7 +30,8 @@
       const flattend = simplified.geometry.points.reduce((flat, xy) => ([...flat, ...xy]), []);   
 
       const poly = new PIXI.Graphics();
-      poly.beginFill(0x1a73e8, 0.25);
+      // poly.beginFill(0x1a73e8, 0.25);
+      poly.beginFill(getColor(shape), 0.25);
       poly.drawPolygon(flattend);
       poly.endFill();
 

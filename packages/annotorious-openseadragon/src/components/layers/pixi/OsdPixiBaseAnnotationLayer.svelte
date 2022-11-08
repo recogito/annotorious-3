@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import OpenSeadragon from 'openseadragon';
   import * as PIXI from 'pixi.js';
-  import { CurrentUser, Hover, Selection, Store, type Shape } from '@annotorious/annotorious';
+  import { Env, Hover, Selection, Store, type Shape } from '@annotorious/annotorious';
 
   // OpenSeadragon viewer
   export let viewer: any;
@@ -135,7 +135,9 @@
     changes.added.forEach(drawShape);
 
     changes.updated.forEach(({ oldValue, newValue }) => {
-      if ((oldValue.state.isSelectedBy === $CurrentUser.id) && !(newValue.state.isSelectedBy === $CurrentUser.id)) {
+      console.log('updated', oldValue, newValue);
+      
+      if ((oldValue.state.isSelectedBy === Env.currentUser.id) && !(newValue.state.isSelectedBy === Env.currentUser.id)) {
         // Deselect - restore shape
         drawShape(newValue);
       } else {
@@ -144,7 +146,7 @@
         delete renderedObjects[oldValue.id];
 
         // Add new (unless selected!)
-        if (!(newValue.state.isSelectedBy === $CurrentUser.id))
+        if (!(newValue.state.isSelectedBy === Env.currentUser.id))
           drawShape(newValue);
       }
     });

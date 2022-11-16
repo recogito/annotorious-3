@@ -92,6 +92,12 @@ export class API {
     }
   }
 
+  clearAnnotations = () => {
+    this.crud.enabled = false;
+    Store.clear();
+    this.crud.enabled = true;
+  }
+
   loadAnnotations = (url: string) =>
     fetch(url)
       .then((response) => response.json())

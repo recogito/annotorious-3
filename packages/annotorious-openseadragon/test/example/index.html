@@ -59,11 +59,16 @@
         anno.on('mouseLeaveAnnotation', function (annotation) {
           // console.log('mouse leave', annotation);
         });
+
+        document.getElementById('dbg').addEventListener('click', function() {
+          anno.clearAnnotations();
+        });
       };
     </script>
   </head>
 
   <body>
+    <button id="dbg">CLEAR ALL</button>
     <div id="openseadragon"></div>
   </body>
 </html>

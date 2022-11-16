@@ -106,6 +106,14 @@ export class API {
         return annotations;
       });
 
+  removeAnnotation = (arg: string | WebAnnotation) => {
+    const id = typeof arg === 'string' ? arg : arg.id;
+
+    this.crud.enabled = false;
+    Store.remove(id);
+    this.crud.enabled = true;
+  }
+
   setAnnotations = (annotations: WebAnnotation[]) => {
     const { parsed } = parseW3C(annotations);
 

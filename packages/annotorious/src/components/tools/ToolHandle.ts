@@ -1,19 +1,21 @@
-export enum ToolHandle {
-  SHAPE = 'SHAPE',
+export type ToolHandle = string
 
-  TOP = 'TOP',
+export const ToolHandle = (value: string | number) => `HANDLE-${value}`;
 
-  RIGHT = 'RIGHT',
+ToolHandle.SHAPE = 'SHAPE';
 
-  BOTTOM = 'BOTTOM',
+ToolHandle.TOP = 'TOP';
 
-  LEFT = 'LEFT',
+ToolHandle.RIGHT = 'RIGHT';
 
-  TOP_LEFT = 'TOP_LEFT',
+ToolHandle.BOTTOM = 'BOTTOM';
 
-  TOP_RIGHT = 'TOP_RIGHT',
+ToolHandle.LEFT = 'LEFT';
 
-  BOTTOM_RIGHT = 'BOTTOM_RIGHT',
+ToolHandle.TOP_LEFT = 'TOP_LEFT';
 
-  BOTTOM_LEFT = 'BOTTOM_LEFT'
-}
+ToolHandle.TOP_RIGHT = 'TOP_RIGHT';
+
+ToolHandle.BOTTOM_RIGHT = 'BOTTOM_RIGHT';
+
+ToolHandle.BOTTOM_LEFT = 'BOTTOM_LEFT';

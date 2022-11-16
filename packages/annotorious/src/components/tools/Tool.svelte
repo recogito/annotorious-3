@@ -1,7 +1,7 @@
 <script type="ts">
   import { onMount, createEventDispatcher } from 'svelte';
   import { Store } from '../../state';
-  import type { Shape, Rectangle } from '../../shapes';
+  import type { Shape } from '../../shapes';
   import type { ToolHandle } from '.';
 
   const dispatch = createEventDispatcher();
@@ -29,7 +29,7 @@
 
   const onGrab = (handle: ToolHandle) => (evt: PointerEvent) => {
     grabbedHandle = handle;    
-    grabbedShape = shapeTransform ? shapeTransform(shape as Rectangle) : shape as Rectangle;
+    grabbedShape = shapeTransform ? shapeTransform(shape) : shape;
     grabbedOrigin = screenTransform(evt.offsetX, evt.offsetY);
 
     const target = evt.target as Element;

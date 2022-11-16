@@ -1,7 +1,7 @@
 <script type="ts">
   import { onMount } from 'svelte';
-  import { Hover, Store, Selection, EditableRectangle, RubberbandRectangle, ShapeType, type Shape } from '@annotorious/annotorious';
-
+  import { Hover, Store, Selection, EditablePolygon, EditableRectangle, RubberbandRectangle, ShapeType } from '@annotorious/annotorious';
+  import type { Shape } from '@annotorious/annotorious';
   export let viewer: OpenSeadragon.Viewer;
 
   export let drawingEnabled: boolean;
@@ -59,6 +59,9 @@
     return () => 
       viewer.removeHandler('update-viewport', onUpdateViewport);
   });
+
+  // A typecasting helper, because 'as' doesn't work in Svelte markup
+  const cast = <T extends Shape>(x: Shape) => x as T
 </script>
 
 <svg 
@@ -70,7 +73,7 @@
       {#each $Selection as selected}
         {#if selected.type === ShapeType.RECTANGLE}
           <EditableRectangle
-            shape={selected} 
+            shape={cast(selected)} 
             screenTransform={screenTransform} 
             shapeTransform={shapeTransform}
             reverseShapeTransform={reverseShapeTransform}
@@ -80,6 +83,18 @@
             on:save={({ detail }) => onComplete(detail)} 
             on:cancel={({ detail }) => onComplete(detail)} 
             on:delete={({ detail }) => onDelete(detail)} />
+        {:else if selected.type === ShapeType.POLYGON}
+          <EditablePolygon 
+            shape={cast(selected)}
+            screenTransform={screenTransform}
+            shapeTransform={shapeTransform}
+            reverseShapeTransform={reverseShapeTransform}
+            viewportScale={scale}
+            on:grab={onGrab}
+            on:release={onRelease}
+            on:save={({ detail }) => onComplete(detail)} 
+            on:cancel={({ detail }) => onComplete(detail) }
+            on:delete={({ detail }) => onDelete(detail) } />
         {/if}
       {/each}
     {:else if drawingEnabled} 

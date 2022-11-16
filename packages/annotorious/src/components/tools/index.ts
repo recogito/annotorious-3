@@ -1,3 +1,4 @@
+export * from './PolygonTool';
 export * from './RectangleTool';
 export * from './ToolHandle';
 

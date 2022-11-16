@@ -1,9 +1,9 @@
 <script type="ts">
-  import type { Shape } from '../../../shapes';
+  import type { Rectangle } from '../../../shapes';
   import { ToolHandle, Tool } from '..';
   import { modifyRectangle } from './modifyRectangle';
 
-  export let shape: Shape;
+  export let shape: Rectangle;
   export let screenTransform: Function;
   export let shapeTransform: Function = null;
   export let reverseShapeTransform: Function = null;

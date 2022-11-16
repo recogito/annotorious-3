@@ -1,5 +1,13 @@
 import { createNanoEvents, type Emitter } from 'nanoevents';
-import { type User, Env, Hover, type Shape, Selection, Store, CRUDAdapter } from '@annotorious/annotorious';
+import {
+  type User,
+  Env,
+  Hover,
+  type Shape,
+  Selection,
+  Store,
+  CRUDAdapter
+} from '@annotorious/annotorious';
 import { parseW3C, serializeW3C, type WebAnnotation } from '@annotorious/formats';
 import type { APIOptions } from './APIOptions';
 import type { APIEvents } from './APIEvents';
@@ -14,7 +22,7 @@ export class API {
 
   crud: CRUDAdapter;
 
-  constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {    
+  constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
     this.annotationLayer = new OsdPixiImageAnnotationLayer({
       target: viewer.element,
       props: { viewer }
@@ -26,13 +34,11 @@ export class API {
     });
 
     document.addEventListener('keydown', (evt: KeyboardEvent) => {
-      if (evt.key === 'Shift')
-        this.drawingLayer.$set({ drawingEnabled: true });
+      if (evt.key === 'Shift') this.drawingLayer.$set({ drawingEnabled: true });
     });
 
     document.addEventListener('keyup', (evt: KeyboardEvent) => {
-      if (evt.key === 'Shift')
-        this.drawingLayer.$set({ drawingEnabled: false });
+      if (evt.key === 'Shift') this.drawingLayer.$set({ drawingEnabled: false });
     });
 
     this.emitter = createNanoEvents<APIEvents>();
@@ -81,7 +87,7 @@ export class API {
   }
 
   addAnnotation = (annotation: WebAnnotation) => {
-    const { parsed } = parseW3C([ annotation ]);
+    const { parsed } = parseW3C([annotation]);
 
     if (parsed.length > 0) {
       this.crud.enabled = false;
@@ -90,13 +96,13 @@ export class API {
     } else {
       console.error('Failed parsing annotation', annotation);
     }
-  }
+  };
 
   clearAnnotations = () => {
     this.crud.enabled = false;
     Store.clear();
     this.crud.enabled = true;
-  }
+  };
 
   loadAnnotations = (url: string) =>
     fetch(url)
@@ -112,7 +118,7 @@ export class API {
     this.crud.enabled = false;
     Store.remove(id);
     this.crud.enabled = true;
-  }
+  };
 
   setAnnotations = (annotations: WebAnnotation[]) => {
     const { parsed } = parseW3C(annotations);
@@ -122,8 +128,7 @@ export class API {
     this.crud.enabled = true;
   };
 
-  setAuthInfo = (auth: User | undefined) =>
-    Env.currentUser = auth;
+  setAuthInfo = (auth: User | undefined) => (Env.currentUser = auth);
 
   on<E extends keyof APIEvents>(event: E, callback: APIEvents[E]) {
     this.emitter.on(event, callback);

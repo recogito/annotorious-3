@@ -7,4 +7,4 @@ export const WebSocketClient = (room: string) => {
   provider.on('status', (event: { status: 'disconnected' | 'connecting' | 'connected' }) => {
     console.log(event.status);
   });
-}
+};

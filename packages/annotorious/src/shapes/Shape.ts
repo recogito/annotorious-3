@@ -5,7 +5,7 @@ export interface Shape {
 
   type: ShapeType;
 
-  creator?: string | typeof AnonymousLocalUser; 
+  creator?: string | typeof AnonymousLocalUser;
 
   created?: Date;
 

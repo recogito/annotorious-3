@@ -1,32 +1,27 @@
 /**
  * Auth info can be an actual user, or an
- * anonymous guest. The still need IDs to 
+ * anonymous guest. The still need IDs to
  * make things work in multiplayer.
  */
 export enum UserType {
-  
-  GUEST, USER
-
+  GUEST,
+  USER
 }
 
 export interface Guest {
-  
-  type: UserType.GUEST
+  type: UserType.GUEST;
 
-  id: string
-
+  id: string;
 }
 
 export interface User {
+  type: UserType.USER;
 
-  type: UserType.USER
+  id: string;
 
-  id: string
+  displayName?: string;
 
-  displayName?: string
+  email?: string;
 
-  email?: string
-
-  avatarUrl?: string
-
+  avatarUrl?: string;
 }

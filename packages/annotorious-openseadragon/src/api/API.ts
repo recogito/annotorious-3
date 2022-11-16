@@ -80,6 +80,18 @@ export class API {
     );
   }
 
+  addAnnotation = (annotation: WebAnnotation) => {
+    const { parsed } = parseW3C([ annotation ]);
+
+    if (parsed.length > 0) {
+      this.crud.enabled = false;
+      Store.add(parsed[0]);
+      this.crud.enabled = true;
+    } else {
+      console.error('Failed parsing annotation', annotation);
+    }
+  }
+
   loadAnnotations = (url: string) =>
     fetch(url)
       .then((response) => response.json())

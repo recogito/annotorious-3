@@ -40,9 +40,10 @@
       on:pointerdown={grab(ToolHandle.SHAPE)}
       points={geometry.points.map(xy => xy.join(',')).join(' ')} />
 
-    {#each geometry.points as point}
+    {#each geometry.points as point, idx}
       <rect 
         class="a9s-corner-handle"
+        on:pointerdown={grab(ToolHandle(idx))}
         x={point[0] - handleSize / 2} y={point[1] - handleSize / 2} height={handleSize} width={handleSize} />
     {/each}
   </g>

@@ -1,5 +1,5 @@
 <script type="ts">
-  import { onMount } from 'svelte';
+  import { onMount, SvelteComponent } from 'svelte';
   import { Hover, Store, Selection, EditablePolygon, EditableRectangle, RubberbandPolygon, RubberbandRectangle, ShapeType } from '@annotorious/annotorious';
   import type { Shape } from '@annotorious/annotorious';
 
@@ -21,7 +21,7 @@
 
   let scale = 1;
 
-  let currentDrawingTool: any = null;
+  let currentDrawingTool: typeof SvelteComponent = null;
 
   $: {
     if (drawingEnabled) {

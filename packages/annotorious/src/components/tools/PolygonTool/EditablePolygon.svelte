@@ -55,11 +55,11 @@
     fill: rgba(26, 115, 232, 0.25);
     stroke: rgb(26, 115, 232);
     stroke-width: 2px;
+    cursor: move;
   }
 
   polygon.a9s-shape-handle:hover {
     fill: rgba(26, 115, 232, 0.18);
-    cursor: move;
   }
 
   .a9s-corner-handle {
@@ -67,5 +67,6 @@
     fill: rgba(255, 255, 255);
     stroke: rgb(26, 115, 232);
     stroke-width: 1px;
+    cursor: move;
   }
 </style>

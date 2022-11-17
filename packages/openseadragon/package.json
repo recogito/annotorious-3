@@ -7,7 +7,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "echo 'Skipping tests in openseadragon package'"
+    "test": "echo 'Skipping tests in @annotorious/openseadragon package'"
   },
   "repository": {
     "type": "git",

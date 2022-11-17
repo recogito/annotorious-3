@@ -1,8 +1,8 @@
 {
-  "name": "@annotorious/react-annotorious",
+  "name": "@annotorious/react",
   "version": "3.0.1",
   "scripts": {
-    "test": "echo 'Skipping tests in react-annotorious package'"
+    "test": "echo 'Skipping tests in @annotorious/react package'"
   },
   "repository": {
     "type": "git",

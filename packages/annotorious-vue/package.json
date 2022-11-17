@@ -1,8 +1,8 @@
 {
-  "name": "@annotorious/svelte-annotorious",
+  "name": "@annotorious/vue",
   "version": "3.0.1",
   "scripts": {
-    "test": "echo 'Skipping tests in vue-annotorious package'"
+    "test": "echo 'Skipping tests in @annotorious/vue package'"
   },
   "repository": {
     "type": "git",

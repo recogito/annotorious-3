@@ -8,9 +8,9 @@ export const modifyPolygon = (polygon: Polygon, handle: ToolHandle, delta: numbe
   if (handle === ToolHandle.SHAPE) {
     points = polygon.geometry.points.map(([x, y]) => [x + delta[0], y + delta[1]]);
   } else {
-    points = polygon.geometry.points.map(([x, y], idx) => 
-      handle === ToolHandle(idx) ?
-        [x + delta[0], y + delta[1]] : [x, y]);
+    points = polygon.geometry.points.map(([x, y], idx) =>
+      handle === ToolHandle(idx) ? [x + delta[0], y + delta[1]] : [x, y]
+    );
   }
 
   const bounds = boundsFromPoints(points);

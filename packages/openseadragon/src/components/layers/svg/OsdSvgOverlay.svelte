@@ -21,7 +21,14 @@
 
   let scale = 1;
 
-  $: drawingEnabled ? viewer.setMouseNavEnabled(false) : viewer.setMouseNavEnabled(true);
+  let currentDrawingTool: any = null;
+
+  $: {
+    if (drawingEnabled) {
+      currentDrawingTool = RubberbandPolygon;
+      viewer.setMouseNavEnabled(false);
+    }
+  }
 
   const onUpdateViewport = () => {
     // Keep SVG layer in sync with OSD state
@@ -50,6 +57,8 @@
     });
 
     Hover.set(null);
+
+    viewer.setMouseNavEnabled(true);
   }
 
   const onDelete = (shape: Shape) => {
@@ -69,7 +78,7 @@
 
 <svg 
   class="a9s-gl-drawing-pane" 
-  class:active={$Selection.length > 0 || drawingEnabled}
+  class:active={$Selection.length > 0 || Boolean(currentDrawingTool)}
   bind:this={svgElement}>
   <g transform={transform}>
     {#if $Selection.length > 0}
@@ -100,8 +109,9 @@
             on:delete={({ detail }) => onDelete(detail) } />
         {/if}
       {/each}
-    {:else if drawingEnabled} 
-      <RubberbandPolygon 
+    {:else if Boolean(currentDrawingTool)} 
+      <svelte:component 
+        this={currentDrawingTool}
         element={svgElement}
         screenTransform={screenTransform} />
     {/if}

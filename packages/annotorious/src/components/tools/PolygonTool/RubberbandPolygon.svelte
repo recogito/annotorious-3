@@ -1,18 +1,12 @@
 <script type="ts">
   import { onMount } from 'svelte';
-  import { nanoid } from 'nanoid';
-  import { Env } from '../../../environment';
-  import { Store, Selection } from '../../../state';
-  import { ShapeType, type Polygon } from '../../../shapes';
 
   export let element: SVGElement;
 
   export let screenTransform: Function;
 
-  // Points created so far
   let points: [number, number][] = [];
   
-  // The 'floating' point under the mouse
   let cursor: [number, number] = null;
 
   onMount(() => {
@@ -20,29 +14,38 @@
       evt.preventDefault();
 
       const point = screenTransform(evt.offsetX, evt.offsetY);
-      points.push(point);
+
+      if (points.length === 0)
+        points.push(point);
+  
       cursor = point;
     };
 
     const onPointerMove = (evt: PointerEvent) => {
-      if (points.length > 1) {
+      if (points.length > 0) {
         evt.preventDefault();
 
         cursor = screenTransform(evt.offsetX, evt.offsetY);
       }
     };
 
+    const onPointerUp = () => {
+      points.push(cursor);
+    }
+
     element.addEventListener('pointerdown', onPointerDown);
     element.addEventListener('pointermove', onPointerMove);
+    element.addEventListener('pointerup', onPointerUp);
 
     return () => {
       element.removeEventListener('pointerdown', onPointerDown);
       element.removeEventListener('pointermove', onPointerMove);
+      element.removeEventListener('pointerup', onPointerUp);
     }
   });
 </script>
 
-{#if Boolean(cursor)}
+{#if (Boolean(cursor))}
   <g class="a9s-selection polygon">
     <polygon points={[...points, cursor].map(xy => xy.join(',')).join(' ')} />
   </g>

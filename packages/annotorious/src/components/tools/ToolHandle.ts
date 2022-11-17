@@ -1,4 +1,4 @@
-export type ToolHandle = string
+export type ToolHandle = string;
 
 export const ToolHandle = (value: string | number) => `HANDLE-${value}`;
 
@@ -19,5 +19,3 @@ ToolHandle.TOP_RIGHT = 'TOP_RIGHT';
 ToolHandle.BOTTOM_RIGHT = 'BOTTOM_RIGHT';
 
 ToolHandle.BOTTOM_LEFT = 'BOTTOM_LEFT';
-
-ToolHandle

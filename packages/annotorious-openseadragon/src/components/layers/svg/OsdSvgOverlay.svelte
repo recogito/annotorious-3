@@ -1,7 +1,8 @@
 <script type="ts">
   import { onMount } from 'svelte';
-  import { Hover, Store, Selection, EditablePolygon, EditableRectangle, RubberbandRectangle, ShapeType } from '@annotorious/annotorious';
+  import { Hover, Store, Selection, EditablePolygon, EditableRectangle, RubberbandPolygon, RubberbandRectangle, ShapeType } from '@annotorious/annotorious';
   import type { Shape } from '@annotorious/annotorious';
+
   export let viewer: OpenSeadragon.Viewer;
 
   export let drawingEnabled: boolean;
@@ -19,6 +20,8 @@
   let transform = null;
 
   let scale = 1;
+
+  $: drawingEnabled ? viewer.setMouseNavEnabled(false) : viewer.setMouseNavEnabled(true);
 
   const onUpdateViewport = () => {
     // Keep SVG layer in sync with OSD state
@@ -98,7 +101,7 @@
         {/if}
       {/each}
     {:else if drawingEnabled} 
-      <RubberbandRectangle 
+      <RubberbandPolygon 
         element={svgElement}
         screenTransform={screenTransform} />
     {/if}

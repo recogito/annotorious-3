@@ -5,7 +5,8 @@
   "main": "./src/index.ts",
   "scripts": {
     "start": "vite",
-    "server": "HOST=localhost PORT=1234 y-websocket"
+    "server": "HOST=localhost PORT=1234 y-websocket",
+    "test": "echo 'Skipping tests in realtime package'"
   },
   "repository": {
     "type": "git",

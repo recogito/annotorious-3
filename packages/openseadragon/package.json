@@ -1,5 +1,5 @@
 {
-  "name": "@annotorious/annotorious-openseadragon",
+  "name": "@annotorious/openseadragon",
   "version": "3.0.1",
   "type": "module",
   "main": "./src/index.ts",
@@ -7,7 +7,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "echo 'Skipping tests in annotorious-openseadragon package'"
+    "test": "echo 'Skipping tests in openseadragon package'"
   },
   "repository": {
     "type": "git",

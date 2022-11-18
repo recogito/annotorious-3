@@ -113,7 +113,8 @@
       <svelte:component 
         this={currentDrawingTool}
         element={svgElement}
-        screenTransform={screenTransform} />
+        screenTransform={screenTransform} 
+        viewportScale={scale} />
     {/if}
   </g>
 </svg>

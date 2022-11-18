@@ -93,7 +93,7 @@
   .a9s-shape-handle {
     fill: rgba(26, 115, 232, 0.25);
     stroke: rgb(26, 115, 232);
-    stroke-width: 1px;
+    stroke-width: 2px;
   }
 
   .a9s-shape-handle:hover {

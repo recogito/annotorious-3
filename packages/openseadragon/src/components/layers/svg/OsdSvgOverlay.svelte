@@ -65,6 +65,11 @@
     Store.remove(shape);
   }
 
+  const onCreated = (shape: Shape) => {
+    currentDrawingTool = null;
+    viewer.setMouseNavEnabled(true);
+  }
+
   onMount(() => {
     viewer.addHandler('update-viewport', onUpdateViewport);
 
@@ -114,7 +119,8 @@
         this={currentDrawingTool}
         element={svgElement}
         screenTransform={screenTransform} 
-        viewportScale={scale} />
+        viewportScale={scale} 
+        on:created={({ detail }) => onCreated(detail) } />
     {/if}
   </g>
 </svg>

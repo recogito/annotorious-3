@@ -6,7 +6,7 @@ import type { Shape } from '../../shapes';
 const Selection = () => {
   const { subscribe, update } = writable<Shape[]>([]);
 
-  Store.observe(({ deleted, updated }) => {
+  Store.observe(({ added, deleted, updated }) => {
     // State changes
     const withChangedState: Shape[] = updated
       .filter(
@@ -14,12 +14,18 @@ const Selection = () => {
       )
       .map(({ newValue }) => newValue);
 
-    if (withChangedState.length + deleted.length > 0) {
+    // Added in selected state?
+    const newSelections = added.filter(shape => shape.state.isSelectedBy)
+
+    if ((withChangedState.length + deleted.length + newSelections.length) > 0) {
       update((currentSelection: Shape[]) => {
         // Shapes that have changed to 'selected' in this update
-        const selected = withChangedState.filter(
-          (newValue) => newValue.state.isSelectedBy === Env.currentUser.id
-        );
+        const selected = [ 
+          ...withChangedState.filter(
+            (newValue) => newValue.state.isSelectedBy === Env.currentUser.id
+          ),
+          ...newSelections
+        ];
 
         // IDs for the shapes that were 'deselected' in this update...
         const deselectedIds = new Set([

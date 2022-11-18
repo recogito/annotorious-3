@@ -1,6 +1,12 @@
 <script type="ts">
-  import { onMount } from 'svelte';
+  import { onMount, createEventDispatcher } from 'svelte';
+  import { nanoid } from 'nanoid';
+  import { Store } from '../../../state';
+  import { Env } from '../../../environment';
   import { distance } from '../../../geom';
+  import { boundsFromPoints, ShapeType, type Polygon } from '../../../shapes';
+
+  const dispatch = createEventDispatcher();
 
   export let element: SVGElement;
 
@@ -36,7 +42,7 @@
 
         cursor = screenTransform(evt.offsetX, evt.offsetY);
 
-        if (points.length >  3) {
+        if (points.length >  2) {
           const d = viewportScale ? distance(cursor, points[0]) / viewportScale : distance(cursor, points[0]);
           isClosable = d < closeDistance;
         }
@@ -45,7 +51,23 @@
 
     const onPointerUp = () => {
       if (isClosable) {
-        // TODO construct shape and fire event
+        const shape: Polygon = {
+          id: nanoid(),
+          type: ShapeType.POLYGON, 
+          creator: Env.currentUser.id,
+          created: new Date(),
+          geometry: {
+            bounds: boundsFromPoints(points),
+            points
+          },
+          state: {
+            isSelectedBy: Env.currentUser.id
+          }
+        }
+
+        Store.add(shape);
+
+        dispatch('created');
       } else {
         points.push(cursor);
       }

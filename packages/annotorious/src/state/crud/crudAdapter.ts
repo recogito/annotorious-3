@@ -21,8 +21,10 @@ export class CRUDAdapter {
         const { added, deleted, updated } = changes;
 
         added.forEach((shape) => {
-          delete selected[shape.id];
-          this.emitter.emit('createShape', shape);
+          if (!shape.state.isSelectedBy) {
+            delete selected[shape.id];
+            this.emitter.emit('createShape', shape);
+          }
         });
 
         deleted.forEach((shape) => {
@@ -37,8 +39,11 @@ export class CRUDAdapter {
           } else if (oldValue.state.isSelectedBy && !newValue.state.isSelectedBy) {
             const stateOnSelection = selected[newValue.id];
 
-            if (!equalsIgnoreState(stateOnSelection, newValue)) {
-              this.emitter.emit('updateShape', newValue, stateOnSelection);
+            if (stateOnSelection) {
+              if (!equalsIgnoreState(stateOnSelection, newValue))
+                this.emitter.emit('updateShape', newValue, stateOnSelection);
+            } else {
+              this.emitter.emit('createShape', newValue);
             }
           }
         });

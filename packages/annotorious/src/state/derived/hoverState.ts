@@ -5,7 +5,7 @@ import type { Shape } from '../../shapes';
 export interface HoverState {
   shape: Shape;
 
-  originalEvent: MouseEvent | PointerEvent;
+  originalEvent: PointerEvent;
 }
 
 const Hover = () => {

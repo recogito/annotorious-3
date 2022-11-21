@@ -59,14 +59,14 @@ export class API {
         if (hover.shape.id !== currentHover?.id) {
           if (currentHover) {
             // Emit leave event first
-            this.emitter.emit('mouseLeaveAnnotation', serializeW3C(currentHover));
+            this.emitter.emit('mouseLeaveAnnotation', serializeW3C(currentHover), hover.originalEvent);
           }
 
-          this.emitter.emit('mouseEnterAnnotation', serializeW3C(hover.shape));
+          this.emitter.emit('mouseEnterAnnotation', serializeW3C(hover.shape), hover.originalEvent);
           currentHover = hover.shape;
         }
       } else if (currentHover) {
-        this.emitter.emit('mouseLeaveAnnotation', serializeW3C(currentHover));
+        this.emitter.emit('mouseLeaveAnnotation', serializeW3C(currentHover), hover.originalEvent);
         currentHover = null;
       }
     });

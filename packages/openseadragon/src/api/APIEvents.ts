@@ -5,9 +5,9 @@ export interface APIEvents {
 
   deleteAnnotation: (annotation: WebAnnotation) => void;
 
-  mouseEnterAnnotation: (annotation: WebAnnotation) => void;
+  mouseEnterAnnotation: (annotation: WebAnnotation, evt: PointerEvent) => void;
 
-  mouseLeaveAnnotation: (annotation: WebAnnotation) => void;
+  mouseLeaveAnnotation: (annotation: WebAnnotation, evt: PointerEvent) => void;
 
   selectAnnotation: (annotation: WebAnnotation) => void;
 

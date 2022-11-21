@@ -83,13 +83,13 @@
       const hovered = Store.getAt(img.x, img.y);
       if (hovered?.id !== $Hover?.shape.id) {
         if (hovered)
-          Hover.set({ shape: hovered, originalEvent: evt});
+          Hover.set(hovered, evt);
         else 
-          Hover.set(null);
+          Hover.set(null, evt);
       } else {
         // Should we update the originalEvent in the hover state?
         if (hovered)
-          Hover.set({ shape: hovered, originalEvent: evt })
+          Hover.set(hovered, evt);
       }
     });
 

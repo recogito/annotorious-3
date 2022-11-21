@@ -15,12 +15,12 @@ const Selection = () => {
       .map(({ newValue }) => newValue);
 
     // Added in selected state?
-    const newSelections = added.filter(shape => shape.state.isSelectedBy)
+    const newSelections = added.filter((shape) => shape.state.isSelectedBy);
 
-    if ((withChangedState.length + deleted.length + newSelections.length) > 0) {
+    if (withChangedState.length + deleted.length + newSelections.length > 0) {
       update((currentSelection: Shape[]) => {
         // Shapes that have changed to 'selected' in this update
-        const selected = [ 
+        const selected = [
           ...withChangedState.filter(
             (newValue) => newValue.state.isSelectedBy === Env.currentUser.id
           ),

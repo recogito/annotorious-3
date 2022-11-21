@@ -3,13 +3,16 @@ import { Store } from '..';
 import type { Shape } from '../../shapes';
 
 const Hover = () => {
-  const { subscribe, update } = writable<{ shape: Shape, originalEvent: PointerEvent}>();
+  const { subscribe, update } = writable<{ shape: Shape; originalEvent: PointerEvent }>({
+    shape: null,
+    originalEvent: null
+  });
 
   const changeHover = (shape: Shape | null, originalEvent: PointerEvent) =>
     update((currentHover) => {
       // Update the store only if hover changed to a different shape
-      if (currentHover?.shape.id !== shape?.id) {
-        if (currentHover) Store.setState(currentHover.shape.id, { isHovered: false });
+      if (currentHover?.shape?.id !== shape?.id) {
+        if (currentHover?.shape) Store.setState(currentHover.shape.id, { isHovered: false });
 
         if (shape) Store.setState(shape.id, { isHovered: true });
       }

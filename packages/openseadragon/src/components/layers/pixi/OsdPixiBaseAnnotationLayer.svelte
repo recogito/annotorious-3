@@ -81,11 +81,13 @@
       const img = config.viewportToLayerPoint(vpt, viewer);
 
       const hovered = Store.getAt(img.x, img.y);
-      if (hovered?.id !== $Hover?.shape.id) {
-        if (hovered)
+
+      if (hovered?.id !== $Hover?.shape?.id) {
+        if (hovered) {
           Hover.set(hovered, evt);
-        else 
+        } else { 
           Hover.set(null, evt);
+        }
       } else {
         // Should we update the originalEvent in the hover state?
         if (hovered)

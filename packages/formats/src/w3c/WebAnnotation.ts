@@ -3,12 +3,12 @@ export interface WebAnnotation {
 
   body: Object | Array<Object>;
 
-  target: AnnotationTarget | Array<AnnotationTarget>;
+  target: WebAnnotationTarget | Array<WebAnnotationTarget>;
 
   [key: string]: any;
 }
 
-export interface AnnotationBody {
+export interface WebAnnotationBody {
   type?: string;
 
   purpose?: string;
@@ -24,7 +24,7 @@ export interface AnnotationBody {
   };
 }
 
-export interface AnnotationTarget {
+export interface WebAnnotationTarget {
   source: string;
 
   selector: Selector | Array<Selector>;

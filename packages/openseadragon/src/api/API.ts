@@ -97,7 +97,7 @@ export class API {
   }
 
   get source() {
-    return  this.viewer.world.getItemAt(0).source['@id'] ||
+    return this.viewer.world.getItemAt(0).source['@id'] ||
       new URL(this.viewer.world.getItemAt(0).source.url, document.baseURI).href;
   }
 

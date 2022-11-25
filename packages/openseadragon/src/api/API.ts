@@ -8,6 +8,8 @@ import { OsdPixiImageAnnotationLayer, OsdSvgDrawingLayer } from '../components';
 import type OpenSeadragon from 'openseadragon';
 
 export class API {
+  viewer: OpenSeadragon.Viewer;
+
   annotationLayer: OsdPixiImageAnnotationLayer;
 
   drawingLayer: OsdSvgDrawingLayer;
@@ -17,9 +19,7 @@ export class API {
   crud: CRUDAdapter;
 
   constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
-    const source =
-      viewer.world.getItemAt(0).source['@id'] ||
-      new URL(viewer.world.getItemAt(0).source.url, document.baseURI).href;
+    this.viewer = viewer;
 
     this.annotationLayer = new OsdPixiImageAnnotationLayer({
       target: viewer.element,
@@ -44,7 +44,7 @@ export class API {
     let currentHover: Shape = null;
 
     Selection.subscribe((shapes) => {
-      const annotations = shapes.map((s) => serializeW3C(s, source));
+      const annotations = shapes.map((s) => serializeW3C(s, this.source));
 
       // Legacy interop
       if (annotations.length > 0) {
@@ -59,18 +59,18 @@ export class API {
             // Emit leave event first
             this.emitter.emit(
               'mouseLeaveAnnotation',
-              serializeW3C(currentHover, source),
+              serializeW3C(currentHover, this.source),
               originalEvent
             );
           }
 
-          this.emitter.emit('mouseEnterAnnotation', serializeW3C(shape, source), originalEvent);
+          this.emitter.emit('mouseEnterAnnotation', serializeW3C(shape, this.source), originalEvent);
           currentHover = shape;
         }
       } else if (currentHover) {
         this.emitter.emit(
           'mouseLeaveAnnotation',
-          serializeW3C(currentHover, source),
+          serializeW3C(currentHover, this.source),
           originalEvent
         );
         currentHover = null;
@@ -80,20 +80,25 @@ export class API {
     this.crud = new CRUDAdapter(Store);
 
     this.crud.on('createShape', (shape) =>
-      this.emitter.emit('createAnnotation', serializeW3C(shape, source))
+      this.emitter.emit('createAnnotation', serializeW3C(shape, this.source))
     );
 
     this.crud.on('deleteShape', (shape) =>
-      this.emitter.emit('deleteAnnotation', serializeW3C(shape, source))
+      this.emitter.emit('deleteAnnotation', serializeW3C(shape, this.source))
     );
 
     this.crud.on('updateShape', (shape, previous) =>
       this.emitter.emit(
         'updateAnnotation',
-        serializeW3C(shape, source),
-        serializeW3C(previous, source)
+        serializeW3C(shape, this.source),
+        serializeW3C(previous, this.source)
       )
     );
+  }
+
+  get source() {
+    return  this.viewer.world.getItemAt(0).source['@id'] ||
+      new URL(this.viewer.world.getItemAt(0).source.url, document.baseURI).href;
   }
 
   addAnnotation = (annotation: WebAnnotation) => {

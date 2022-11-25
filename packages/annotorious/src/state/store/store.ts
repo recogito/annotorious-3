@@ -14,7 +14,7 @@ const Store = () => {
 
   const observers: { callback: Function; ignoreHoverStateChanges: boolean }[] = [];
 
-  index.observe((evt) => {
+  index.observe((evt) => {    
     const { keys } = evt.changes;
 
     const added: Shape[] = [];
@@ -47,7 +47,6 @@ const Store = () => {
       if (ignoreHoverStateChanges) {
         // Don't fire the callback if this event has only state changes
         const withoutStateChanges = event.removeStateChanges(['isHovered']);
-
         if (!withoutStateChanges.isEmpty()) callback(event);
       } else {
         callback(event);

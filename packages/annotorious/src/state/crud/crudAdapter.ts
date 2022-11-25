@@ -45,6 +45,9 @@ export class CRUDAdapter {
             } else {
               this.emitter.emit('createShape', newValue);
             }
+          } else if (!oldValue.state.isSelectedBy && !newValue.state.isSelectedBy) {
+            // This annotation was updated programmatically, without a selection in between
+            this.emitter.emit('updateShape', newValue, oldValue);
           }
         });
       }

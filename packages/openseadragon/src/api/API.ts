@@ -89,12 +89,12 @@ export class API {
   addAnnotation = (annotation: WebAnnotation) => {
     const { parsed } = parseW3C([annotation]);
 
-    if (parsed.length > 0) {
+    if (parsed.length === 1) {
       this.crud.enabled = false;
       Store.add(parsed[0]);
       this.crud.enabled = true;
     } else {
-      console.error('Failed parsing annotation', annotation);
+      console.error('Invalid annotation', annotation);
     }
   };
 
@@ -134,6 +134,18 @@ export class API {
   };
 
   setAuthInfo = (auth: User | undefined) => (Env.currentUser = auth);
+
+  updateAnnotation = (arg: WebAnnotation | string, updated: WebAnnotation) => {
+    const id = typeof arg === 'string' ? arg : arg.id;
+
+    const { parsed } = parseW3C([ updated ]);
+
+    if (parsed.length === 1) {
+      Store.update(id, parsed[0]);
+    } else {
+      console.error('Invalid annotation', updated);
+    }
+  }
 
   on<E extends keyof APIEvents>(event: E, callback: APIEvents[E]) {
     this.emitter.on(event, callback);

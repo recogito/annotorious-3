@@ -2,10 +2,11 @@ import { ShapeType, type RectangleGeometry, type Shape } from '@annotorious/anno
 import { toSVGSelector, toMediaFragmentSelector } from '..';
 import type { WebAnnotation } from './WebAnnotation';
 
-export const serializeW3C = (s: Shape): WebAnnotation => {
-  const selector = s.type == ShapeType.RECTANGLE ?
-    toMediaFragmentSelector(s.geometry as RectangleGeometry) :
-    toSVGSelector(s);
+export const serializeW3C = (s: Shape, source: string): WebAnnotation => {
+  const selector =
+    s.type == ShapeType.RECTANGLE
+      ? toMediaFragmentSelector(s.geometry as RectangleGeometry)
+      : toSVGSelector(s);
 
   return {
     '@context': 'http://www.w3.org/ns/anno.jsonld',
@@ -13,7 +14,7 @@ export const serializeW3C = (s: Shape): WebAnnotation => {
     type: 'Annotation',
     body: s.data?.body,
     target: {
-      source: '',
+      source,
       selector
     }
   };

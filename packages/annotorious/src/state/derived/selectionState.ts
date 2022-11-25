@@ -59,12 +59,12 @@ const Selection = () => {
   const select = (arg: Shape | string) => {
     const id = typeof arg === 'string' ? arg : arg.id;
     Store.setState(id, { isSelectedBy: Env.currentUser.id });
-  }
+  };
 
   const deselect = (arg: Shape | string) => {
     const id = typeof arg === 'string' ? arg : arg.id;
     Store.setState(id, { isSelectedBy: undefined });
-  }
+  };
 
   return { subscribe, select, deselect };
 };

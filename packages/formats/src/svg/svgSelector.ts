@@ -12,11 +12,9 @@ interface SVGGeometry {
 }
 
 interface SVGSelector {
-
   type: 'SvgSelector';
 
   value: string;
-
 }
 
 export const parseSVG = (valueOrSelector: string | { value: string }): SVGGeometry => {
@@ -38,21 +36,18 @@ export const parseSVG = (valueOrSelector: string | { value: string }): SVGGeomet
   };
 };
 
-
 export const toSVGSelector = (shape: Shape): SVGSelector => {
-
   let value: string;
 
   if (shape.type === ShapeType.POLYGON) {
     const geom = shape.geometry as PolygonGeometry;
     const { points } = geom;
-    value = `<polygon points="${points.map(xy => xy.join(',')).join(' ')}" />`
+    value = `<polygon points="${points.map((xy) => xy.join(',')).join(' ')}" />`;
   }
-  
+
   if (value) {
-    return { type: 'SvgSelector', value };  
+    return { type: 'SvgSelector', value };
   } else {
     throw `Unsupported shape type: ${shape.type}`;
   }
-
-}
+};

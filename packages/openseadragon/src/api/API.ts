@@ -1,17 +1,11 @@
 import { createNanoEvents, type Emitter } from 'nanoevents';
-import {
-  type User,
-  Env,
-  Hover,
-  type Shape,
-  Selection,
-  Store,
-  CRUDAdapter
-} from '@annotorious/annotorious';
+import { Env, Hover, Selection, Store, CRUDAdapter } from '@annotorious/annotorious';
+import type { User, Shape } from '@annotorious/annotorious';
 import { parseW3C, serializeW3C, type WebAnnotation } from '@annotorious/formats';
 import type { APIOptions } from './APIOptions';
 import type { APIEvents } from './APIEvents';
 import { OsdPixiImageAnnotationLayer, OsdSvgDrawingLayer } from '../components';
+import type OpenSeadragon from 'openseadragon';
 
 export class API {
   annotationLayer: OsdPixiImageAnnotationLayer;
@@ -23,6 +17,10 @@ export class API {
   crud: CRUDAdapter;
 
   constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
+    const source =
+      viewer.world.getItemAt(0).source['@id'] ||
+      new URL(viewer.world.getItemAt(0).source.url, document.baseURI).href;
+
     this.annotationLayer = new OsdPixiImageAnnotationLayer({
       target: viewer.element,
       props: { viewer }
@@ -46,7 +44,7 @@ export class API {
     let currentHover: Shape = null;
 
     Selection.subscribe((shapes) => {
-      const annotations = shapes.map(serializeW3C);
+      const annotations = shapes.map((s) => serializeW3C(s, source));
 
       // Legacy interop
       if (annotations.length > 0) {
@@ -59,14 +57,22 @@ export class API {
         if (shape.id !== currentHover?.id) {
           if (currentHover) {
             // Emit leave event first
-            this.emitter.emit('mouseLeaveAnnotation', serializeW3C(currentHover), originalEvent);
+            this.emitter.emit(
+              'mouseLeaveAnnotation',
+              serializeW3C(currentHover, source),
+              originalEvent
+            );
           }
 
-          this.emitter.emit('mouseEnterAnnotation', serializeW3C(shape), originalEvent);
+          this.emitter.emit('mouseEnterAnnotation', serializeW3C(shape, source), originalEvent);
           currentHover = shape;
         }
       } else if (currentHover) {
-        this.emitter.emit('mouseLeaveAnnotation', serializeW3C(currentHover), originalEvent);
+        this.emitter.emit(
+          'mouseLeaveAnnotation',
+          serializeW3C(currentHover, source),
+          originalEvent
+        );
         currentHover = null;
       }
     });
@@ -74,15 +80,19 @@ export class API {
     this.crud = new CRUDAdapter(Store);
 
     this.crud.on('createShape', (shape) =>
-      this.emitter.emit('createAnnotation', serializeW3C(shape))
+      this.emitter.emit('createAnnotation', serializeW3C(shape, source))
     );
 
     this.crud.on('deleteShape', (shape) =>
-      this.emitter.emit('deleteAnnotation', serializeW3C(shape))
+      this.emitter.emit('deleteAnnotation', serializeW3C(shape, source))
     );
 
     this.crud.on('updateShape', (shape, previous) =>
-      this.emitter.emit('updateAnnotation', serializeW3C(shape), serializeW3C(previous))
+      this.emitter.emit(
+        'updateAnnotation',
+        serializeW3C(shape, source),
+        serializeW3C(previous, source)
+      )
     );
   }
 
@@ -123,7 +133,7 @@ export class API {
   selectAnnotation = (arg: WebAnnotation | string) => {
     const id = typeof arg === 'string' ? arg : arg.id;
     Selection.select(id);
-  }
+  };
 
   setAnnotations = (annotations: WebAnnotation[]) => {
     const { parsed } = parseW3C(annotations);
@@ -138,14 +148,14 @@ export class API {
   updateAnnotation = (arg: WebAnnotation | string, updated: WebAnnotation) => {
     const id = typeof arg === 'string' ? arg : arg.id;
 
-    const { parsed } = parseW3C([ updated ]);
+    const { parsed } = parseW3C([updated]);
 
     if (parsed.length === 1) {
       Store.update(id, parsed[0]);
     } else {
       console.error('Invalid annotation', updated);
     }
-  }
+  };
 
   on<E extends keyof APIEvents>(event: E, callback: APIEvents[E]) {
     this.emitter.on(event, callback);

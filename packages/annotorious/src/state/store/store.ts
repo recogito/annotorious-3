@@ -14,7 +14,7 @@ const Store = () => {
 
   const observers: { callback: Function; ignoreHoverStateChanges: boolean }[] = [];
 
-  index.observe((evt) => {    
+  index.observe((evt) => {
     const { keys } = evt.changes;
 
     const added: Shape[] = [];

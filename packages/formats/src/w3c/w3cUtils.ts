@@ -1,7 +1,7 @@
 import type { Shape } from '@annotorious/annotorious';
-import type { AnnotationBody } from './WebAnnotation';
+import type { WebAnnotationBody } from './WebAnnotation';
 
-export const getBodies = (shape: Shape, purpose: string): AnnotationBody[] => {
+export const getBodies = (shape: Shape, purpose: string): WebAnnotationBody[] => {
   if (shape.data) {
     return Array.isArray(shape.data)
       ? // Body array - filter by purpose
@@ -15,13 +15,13 @@ export const getBodies = (shape: Shape, purpose: string): AnnotationBody[] => {
   }
 };
 
-export const getFirstBody = (shape: Shape, purpose: string): AnnotationBody | null => {
+export const getFirstBody = (shape: Shape, purpose: string): WebAnnotationBody | null => {
   const bodies = getBodies(shape, purpose);
   return bodies.length > 0 ? bodies[0] : null;
 };
 
-export const upsertFirst = (shape: Shape, updated: AnnotationBody): Shape => {
-  let updatedBody: AnnotationBody | AnnotationBody[];
+export const upsertFirst = (shape: Shape, updated: WebAnnotationBody): Shape => {
+  let updatedBody: WebAnnotationBody | WebAnnotationBody[];
 
   if (Array.isArray(shape.data.body)) {
     const existing = shape.data.body.find((b) => b.purpose === updated.purpose);

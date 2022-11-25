@@ -120,6 +120,11 @@ export class API {
     this.crud.enabled = true;
   };
 
+  selectAnnotation = (arg: WebAnnotation | string) => {
+    const id = typeof arg === 'string' ? arg : arg.id;
+    Selection.select(id);
+  }
+
   setAnnotations = (annotations: WebAnnotation[]) => {
     const { parsed } = parseW3C(annotations);
 

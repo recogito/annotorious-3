@@ -104,7 +104,7 @@
       const deselectAll = () => $Selection.forEach(shape => 
         Store.setState(shape.id, { isSelectedBy: undefined }));
 
-      if ($Hover && !isSelected($Hover.shape.id)) {
+      if ($Hover?.shape && !isSelected($Hover.shape.id)) {
         deselectAll();
         Selection.select($Hover.shape);
       } else if (!$Hover) {

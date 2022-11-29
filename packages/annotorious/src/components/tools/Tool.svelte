@@ -66,7 +66,7 @@
 
   onMount(() => {
     initialShape = shape;
-     
+
     const onKeyDown = (evt: KeyboardEvent) => {
       if (evt.code === 'Enter')
         dispatch('save', shape)
@@ -75,10 +75,11 @@
       else if (evt.code === 'Delete')
         dispatch('delete', initialShape);
     };
-    
+
     window.addEventListener('keydown', onKeyDown);
 
-    return () => window.removeEventListener('keydown', onKeyDown);
+    return () =>
+      window.removeEventListener('keydown', onKeyDown);
   });
 </script>
 

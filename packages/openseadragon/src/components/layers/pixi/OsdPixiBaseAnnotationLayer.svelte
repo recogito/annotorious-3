@@ -96,7 +96,7 @@
     });
 
     canvas.addEventListener('pointerdown', () => {
-      // Checks if the selection contains this is
+      // Helper: checks if the selection contains this ID
       const isSelected = (id: string) => 
         $Selection.find(shape => shape.id === id);
 
@@ -107,7 +107,7 @@
       if ($Hover?.shape && !isSelected($Hover.shape.id)) {
         deselectAll();
         Selection.select($Hover.shape);
-      } else if (!$Hover) {
+      } else if (!$Hover.shape) {
         deselectAll();
       }
     });

@@ -136,7 +136,7 @@
     pointer-events: none;
   }
 
-  svg.active {
+  svg * {
     pointer-events: all;
   }
 </style>

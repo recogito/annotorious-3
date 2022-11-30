@@ -82,16 +82,12 @@
 
       const hovered = Store.getAt(img.x, img.y);
 
-      if (hovered?.id !== $Hover?.shape?.id) {
+      if (hovered?.id !== $Hover?.id) {
         if (hovered) {
-          Hover.set(hovered, evt);
+          Hover.set(hovered);
         } else { 
-          Hover.set(null, evt);
+          Hover.set(null);
         }
-      } else {
-        // Should we update the originalEvent in the hover state?
-        if (hovered)
-          Hover.set(hovered, evt);
       }
     });
 
@@ -104,10 +100,10 @@
       const deselectAll = () => $Selection.forEach(shape => 
         Store.setState(shape.id, { isSelectedBy: undefined }));
 
-      if ($Hover?.shape && !isSelected($Hover.shape.id)) {
+      if ($Hover && !isSelected($Hover.id)) {
         deselectAll();
-        Selection.select($Hover.shape);
-      } else if (!$Hover.shape) {
+        Selection.select($Hover);
+      } else if (!$Hover) {
         deselectAll();
       }
     });

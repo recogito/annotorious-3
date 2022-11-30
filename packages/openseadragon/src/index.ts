@@ -1,7 +1,3 @@
-import { API, type APIOptions } from './api';
+import { API } from './api';
 
-export default { 
-  
-  init:  (viewer: OpenSeadragon.Viewer, opts: APIOptions = {}) => new API(viewer, opts)
-
-};
+export default API;

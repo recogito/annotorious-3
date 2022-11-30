@@ -21,13 +21,21 @@ export class API {
   constructor(viewer: OpenSeadragon.Viewer, opts: APIOptions) {
     this.viewer = viewer;
 
+    this.emitter = createNanoEvents<APIEvents>();
+
+    const { element } = viewer;
+
+    let currentHover: Shape = null;
+
+    let lastEvent: PointerEvent = null;
+
     this.annotationLayer = new OsdPixiImageAnnotationLayer({
-      target: viewer.element,
+      target: element,
       props: { viewer }
     });
 
     this.drawingLayer = new OsdSvgDrawingLayer({
-      target: viewer.element,
+      target: element,
       props: { viewer }
     });
 
@@ -39,20 +47,9 @@ export class API {
       if (evt.key === 'Shift') this.drawingLayer.$set({ drawingEnabled: false });
     });
 
-    this.emitter = createNanoEvents<APIEvents>();
+    element.addEventListener('pointermove', (evt: PointerEvent) => lastEvent = evt);
 
-    let currentHover: Shape = null;
-
-    Selection.subscribe((shapes) => {
-      const annotations = shapes.map((s) => serializeW3C(s, this.source));
-
-      // Legacy interop
-      if (annotations.length > 0) {
-        this.emitter.emit('selectAnnotation', annotations[annotations.length - 1]);
-      }
-    });
-
-    Hover.subscribe(({ shape, originalEvent }) => {
+    Hover.subscribe(shape => {
       if (shape) {
         if (shape.id !== currentHover?.id) {
           if (currentHover) {
@@ -60,20 +57,29 @@ export class API {
             this.emitter.emit(
               'mouseLeaveAnnotation',
               serializeW3C(currentHover, this.source),
-              originalEvent
+              lastEvent
             );
           }
 
-          this.emitter.emit('mouseEnterAnnotation', serializeW3C(shape, this.source), originalEvent);
+          this.emitter.emit('mouseEnterAnnotation', serializeW3C(shape, this.source), lastEvent);
           currentHover = shape;
         }
       } else if (currentHover) {
         this.emitter.emit(
           'mouseLeaveAnnotation',
           serializeW3C(currentHover, this.source),
-          originalEvent
+          lastEvent
         );
         currentHover = null;
+      }
+    });
+
+    Selection.subscribe((shapes) => {
+      const annotations = shapes.map((s) => serializeW3C(s, this.source));
+
+      // Legacy interop
+      if (annotations.length > 0) {
+        this.emitter.emit('selectAnnotation', annotations[annotations.length - 1]);
       }
     });
 

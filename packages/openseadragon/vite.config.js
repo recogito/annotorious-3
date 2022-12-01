@@ -13,20 +13,21 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
-    rollupOptions: {
-      external: ['openseadragon'], // 'pixi.js'], 
-      output: {
-        globals: {
-          'openseadragon': 'OpenSeadragon'
-          // 'pixi.js': 'PIXI'
-        }
-      }
-    },
     lib: {
       entry: './src/index.ts',
       name: 'Annotorious',
       formats: ['umd'],
       fileName: () => 'annotorious-openseadragon.js',
+    },
+    rollupOptions: {
+      external: ['openseadragon'], // 'pixi.js'], 
+      output: {
+        assetFileNames: 'annotorious-openseadragon.[ext]',
+        globals: {
+          'openseadragon': 'OpenSeadragon'
+          // 'pixi.js': 'PIXI'
+        }
+      }
     }
   }
 });

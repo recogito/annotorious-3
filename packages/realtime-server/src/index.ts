@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import http from 'http';
-import { setupWSConnection } from './utils';
+import { setupWSConnection } from './setupWSConnection';
 
 const wss = new WebSocket.Server({ noServer: true });
 
@@ -23,7 +23,6 @@ server.on('upgrade', (request, socket, head) => {
 
   wss.handleUpgrade(request, socket, head, handleAuth);
 });
-
 
 server.listen(port, host, null, () => {
   console.log(`running at '${host}' on port ${port}`)

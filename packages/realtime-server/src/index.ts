@@ -1,5 +1,6 @@
 import WebSocket from 'ws';
 import http from 'http';
+import sqliteStorage from './sqliteStorage';
 import { setupWSConnection } from './setupWSConnection';
 
 const wss = new WebSocket.Server({ noServer: true });
@@ -7,25 +8,7 @@ const wss = new WebSocket.Server({ noServer: true });
 const host: string = process.env.HOST || 'localhost';
 const port: number = (process.env.PORT && parseInt(process.env.PORT)) || 1234;
 
-const storage = {
-  load: room => {
-
-  },
-
-  onCreate: annotation => {
-    
-  },
-
-  onUpdate: (annotation, previous) => {
-
-  },
-
-  onDelete: annotation => {
-
-  }
-}
-
-wss.on('connection', setupWSConnection(storage));
+wss.on('connection', setupWSConnection(sqliteStorage));
 
 const server = http.createServer((_, response) => {
   response.writeHead(200, { 'Content-Type': 'text/plain' });

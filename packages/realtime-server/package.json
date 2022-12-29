@@ -18,6 +18,8 @@
   },
   "homepage": "https://annotorious.com",
   "dependencies": {
+    "deep-equal": "^2.1.0",
+    "sqlite3": "^5.1.4",
     "y-websocket": "^1.4.5",
     "yjs": "^13.5.43"
   },

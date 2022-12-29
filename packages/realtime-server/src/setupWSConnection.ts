@@ -9,6 +9,8 @@ import * as encoding from 'lib0/encoding';
 import * as decoding from 'lib0/decoding';
 import * as map from 'lib0/map';
 
+import { observe } from './crudAdapter';
+
 const wsReadyStateConnecting = 0
 const wsReadyStateOpen = 1
 
@@ -79,10 +81,35 @@ class WSSharedDoc extends Y.Doc {
       })
     }
     this.awareness.on('update', awarenessChangeHandler)
-    this.on('update', updateHandler)
+    this.on('update', updateHandler);
 
-    this.getMap().observe(event => {
-      console.log('change!', event.changes);
+    const fn  = observe(storage, name);
+
+    const map = this.getMap();
+
+    map.observe(event => {
+
+      const { keys } = event.changes;
+
+      const added = [];
+
+      const deleted = [];
+  
+      const updated = [];
+  
+      for (const [key, value] of keys.entries()) {
+        const { action, oldValue } = value;
+  
+        if (action === 'add') {
+          added.push(map.get(key));
+        } else if (action === 'update') {
+          updated.push({ oldValue, newValue: map.get(key) });
+        } else if (action === 'delete') {
+          deleted.push(oldValue);
+        }
+      }
+  
+      fn({ added, deleted, updated });
     });
   }
 }
@@ -98,9 +125,7 @@ const getYDoc = (docname, storage, gc = true) => map.setIfUndefined(docs, docnam
   const doc = new WSSharedDoc(docname, storage);
   doc.gc = gc;
 
-  // TOOD storage.load(docname);
-
-  console.log('new ydoc', docname);
+  storage.load(docname);
 
   docs.set(docname, doc)
   return doc
@@ -192,7 +217,7 @@ const pingTimeout = 30000
 export const setupWSConnection = storage => (conn, req, { docName = req.url.slice(1).split('?')[0], gc = true } = {}) => {
   conn.binaryType = 'arraybuffer'
   // get doc, initialize if it does not exist yet
-  const doc = getYDoc(docName, null, gc)
+  const doc = getYDoc(docName, storage, gc)
   doc.conns.set(conn, new Set())
   // listen and reply to events
   conn.on('message', /** @param {ArrayBuffer} message */ message => messageListener(conn, doc, new Uint8Array(message)))

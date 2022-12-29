@@ -36,8 +36,9 @@
 
         var anno = Annotorious.init(viewer);
 
-        var wsClient = WebSocketClient();
+        var wsClient = WebSocketClient('1280px-Hallstatt.jpg');
 
+        /*
         anno.loadAnnotations('annotations.w3c.json');
 
         anno.on('createAnnotation', function (annotation) {
@@ -63,6 +64,7 @@
         anno.on('mouseLeaveAnnotation', function (annotation) {
           // console.log('mouse leave', annotation);
         });
+        */
       };
     </script>
   </head>

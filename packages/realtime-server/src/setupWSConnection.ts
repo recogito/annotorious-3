@@ -43,7 +43,7 @@ class WSSharedDoc extends Y.Doc {
   /**
    * @param {string} name
    */
-  constructor (name) {
+  constructor (name, storage) {
     super({ gc: gcEnabled })
     this.name = name
     /**
@@ -94,9 +94,11 @@ class WSSharedDoc extends Y.Doc {
  * @param {boolean} gc - whether to allow gc on the doc (applies only when created)
  * @return {WSSharedDoc}
  */
-const getYDoc = (docname, gc = true) => map.setIfUndefined(docs, docname, () => {
-  const doc = new WSSharedDoc(docname)
+const getYDoc = (docname, storage, gc = true) => map.setIfUndefined(docs, docname, () => {
+  const doc = new WSSharedDoc(docname, storage);
   doc.gc = gc;
+
+  // TOOD storage.load(docname);
 
   console.log('new ydoc', docname);
 
@@ -187,10 +189,10 @@ const pingTimeout = 30000
  * @param {any} req
  * @param {any} opts
  */
-export const setupWSConnection = (conn, req, { docName = req.url.slice(1).split('?')[0], gc = true } = {}) => {
+export const setupWSConnection = storage => (conn, req, { docName = req.url.slice(1).split('?')[0], gc = true } = {}) => {
   conn.binaryType = 'arraybuffer'
   // get doc, initialize if it does not exist yet
-  const doc = getYDoc(docName, gc)
+  const doc = getYDoc(docName, null, gc)
   doc.conns.set(conn, new Set())
   // listen and reply to events
   conn.on('message', /** @param {ArrayBuffer} message */ message => messageListener(conn, doc, new Uint8Array(message)))

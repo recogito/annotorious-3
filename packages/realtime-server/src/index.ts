@@ -7,12 +7,30 @@ const wss = new WebSocket.Server({ noServer: true });
 const host: string = process.env.HOST || 'localhost';
 const port: number = (process.env.PORT && parseInt(process.env.PORT)) || 1234;
 
-wss.on('connection', setupWSConnection);
+const storage = {
+  load: room => {
+
+  },
+
+  onCreate: annotation => {
+    
+  },
+
+  onUpdate: (annotation, previous) => {
+
+  },
+
+  onDelete: annotation => {
+
+  }
+}
+
+wss.on('connection', setupWSConnection(storage));
 
 const server = http.createServer((_, response) => {
   response.writeHead(200, { 'Content-Type': 'text/plain' });
   response.end('okay');
-})
+});
 
 server.on('upgrade', (request, socket, head) => {
   // You may check auth of request here

@@ -18,18 +18,18 @@ const storage = () => {
     });
   }
 
-  const onCreate = (shape: { id: string }, source: string) => {
-    console.log('creating')
+  const onCreate = (shape: { id: string, state: object }, source: string) => {
+    console.log('creating');
     // Just a hack for now
-    const json = JSON.stringify(shape);
-
+    const { state, ...rest } = shape;
+    const json = JSON.stringify(rest);
     db.run('INSERT INTO annotation(id, source, json) VALUES (?, ?, ?)', [shape.id, source, json]);
   }
 
-  const onUpdate = (shape: { id: string }, previous: Object) => {
+  const onUpdate = (shape: { id: string, state: object }, previous: Object) => {
     console.log('updating');
-
-    db.run('UPDATE annotation SET json = ? WHERE id = ?', [JSON.stringify(shape), shape.id]);
+    const { state, ...rest } = shape
+    db.run('UPDATE annotation SET json = ? WHERE id = ?', [JSON.stringify(rest), shape.id]);
   }
 
   const onDelete = (shape: { id: string }) => {

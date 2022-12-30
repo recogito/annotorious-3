@@ -42,11 +42,15 @@ class WSSharedDoc extends Y.Doc {
   name: any;
   conns: Map<any, any>;
   awareness: awarenessProtocol.Awareness;
+  storage: any;
   /**
    * @param {string} name
    */
-  constructor (name, storage) {
+  constructor (name: string, storage) {
     super({ gc: gcEnabled })
+
+    this.storage = storage;
+    
     this.name = name
     /**
      * Maps from conn to set of controlled user ids. Delete all user ids from awareness when this conn is closed
@@ -82,13 +86,15 @@ class WSSharedDoc extends Y.Doc {
     }
     this.awareness.on('update', awarenessChangeHandler)
     this.on('update', updateHandler);
+  }
 
-    const fn  = observe(storage, name);
+  startWatching = () => {
+    const fn  = observe(this.storage, this.name);
+
+    console.log('Adding Y.Doc change observer');
 
     const map = this.getMap();
-
     map.observe(event => {
-
       const { keys } = event.changes;
 
       const added = [];
@@ -112,6 +118,12 @@ class WSSharedDoc extends Y.Doc {
       fn({ added, deleted, updated });
     });
   }
+
+  setAnnotations = annotations => {
+    console.log('setting annotations:', annotations);
+    const map = this.getMap();
+    annotations.forEach(a => map.set(a.id, a));
+  }
 }
 
 /**
@@ -124,8 +136,15 @@ class WSSharedDoc extends Y.Doc {
 const getYDoc = (docname, storage, gc = true) => map.setIfUndefined(docs, docname, () => {
   const doc = new WSSharedDoc(docname, storage);
   doc.gc = gc;
+  
+  console.log('Initializing Y.Doc from database');
+  storage.load(docname).then(annotations => { 
+    // Load annotations from database
+    doc.setAnnotations(annotations);
 
-  storage.load(docname);
+    // Start watching this doc
+    doc.startWatching();
+  });
 
   docs.set(docname, doc)
   return doc

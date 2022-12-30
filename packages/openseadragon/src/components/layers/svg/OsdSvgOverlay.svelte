@@ -25,7 +25,7 @@
 
   $: {
     if (drawingEnabled) {
-      currentDrawingTool = RubberbandPolygon;
+      currentDrawingTool = RubberbandRectangle;
       viewer.setMouseNavEnabled(false);
     }
   }
@@ -134,6 +134,10 @@
     height: 100%;
     outline: none;
     pointer-events: none;
+  }
+  
+  svg.active {
+    pointer-events: all;
   }
 
   svg * {

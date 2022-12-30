@@ -12,7 +12,7 @@ const storage = () => {
 
     return new Promise(resolve => {
       db.all(`SELECT * FROM annotation WHERE source = '${source}'`, (err, rows) => {
-        const annotations = rows.map(row => JSON.parse(row.json));
+        const annotations = rows.map(row => ({ ...JSON.parse(row.json), state: {} }));
         resolve(annotations);
       });  
     });

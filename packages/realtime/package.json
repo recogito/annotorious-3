@@ -4,7 +4,7 @@
   "type": "module",
   "main": "./src/index.ts",
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "server": "HOST=localhost PORT=1234 y-websocket",
     "test": "echo 'Skipping tests in realtime package'"
   },

@@ -30,6 +30,11 @@
     }
   }
 
+  $: {
+    if ($Selection.length > 0)
+      currentDrawingTool = null;
+  }
+
   const onUpdateViewport = () => {
     // Keep SVG layer in sync with OSD state
     transform = viewTransform();

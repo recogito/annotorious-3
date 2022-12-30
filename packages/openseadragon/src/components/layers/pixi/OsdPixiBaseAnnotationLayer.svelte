@@ -93,8 +93,10 @@
 
     canvas.addEventListener('pointerdown', () => {
       // De-selects all selected shapes
-      const deselectAll = () => $Selection.forEach(shape => 
-        Store.setState(shape.id, { isSelectedBy: undefined }));
+      const deselectAll = () => $Selection.forEach(shape => {
+        if (shape.state.isSelectedBy === Env.currentUser.id)
+          Store.setState(shape.id, { isSelectedBy: undefined })
+      });
 
       if ($Hover && !$Hover.state.isSelectedBy) {
         deselectAll();

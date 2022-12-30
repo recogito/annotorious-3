@@ -65,7 +65,8 @@
     Store.remove(shape);
   }
 
-  const onCreated = (shape: Shape) => {
+  const onCreated = () => {
+    console.log('created current tool = null');
     currentDrawingTool = null;
     viewer.setMouseNavEnabled(true);
   }
@@ -120,7 +121,7 @@
         element={svgElement}
         screenTransform={screenTransform} 
         viewportScale={scale} 
-        on:created={({ detail }) => onCreated(detail) } />
+        on:created={onCreated} />
     {/if}
   </g>
 </svg>

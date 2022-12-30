@@ -130,9 +130,14 @@
   });
 
   Store.observe(changes => {
-    changes.added.forEach(drawShape);
+    changes.added.forEach(shape => {
+      if (shape.state.isSelectedBy !== Env.currentUser.id)
+        drawShape(shape)
+    });
 
     changes.updated.forEach(({ oldValue, newValue }) => {
+      console.log('change!', oldValue, newValue);
+
       if ((oldValue.state.isSelectedBy === Env.currentUser.id) && !(newValue.state.isSelectedBy === Env.currentUser.id)) {
         // Deselect - restore shape
         drawShape(newValue);

@@ -5,7 +5,7 @@ import { setupWSConnection } from './setupWSConnection';
 
 const wss = new WebSocket.Server({ noServer: true });
 
-const host: string = process.env.HOST || 'localhost';
+const host: string = process.env.HOST || '192.168.0.81';
 const port: number = (process.env.PORT && parseInt(process.env.PORT)) || 1234;
 
 wss.on('connection', setupWSConnection(sqliteStorage));

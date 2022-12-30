@@ -62,6 +62,8 @@
         }
       }
 
+      console.log('adding', shape);
+
       Store.add(shape);
     }
 

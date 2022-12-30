@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import Store from '../store/store';
 import { Env } from '../../environment';
 import type { Shape } from '../../shapes';
+import store from '../store/store';
 
 const Selection = () => {
   const { subscribe, update } = writable<Shape[]>([]);
@@ -47,9 +48,12 @@ const Selection = () => {
             ...selected
           ];
 
-          return updatedSelection;
+          // We're all immutable here. The position of the actual shapes in the store
+          // might have changed, therefore the selection 'copies' may need updating.
+          // This could possibly be optimized.
+          return updatedSelection.map(s => store.get(s.id));
         } else {
-          return currentSelection;
+          return currentSelection.map(s => Store.get(s.id));
         }
       });
     }

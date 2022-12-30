@@ -103,8 +103,9 @@ export class API {
   }
 
   get source() {
-    return this.viewer.world.getItemAt(0).source['@id'] ||
-      new URL(this.viewer.world.getItemAt(0).source.url, document.baseURI).href;
+    return this.viewer.world.getItemAt(0) ?
+      this.viewer.world.getItemAt(0)?.source['@id'] ||
+        new URL(this.viewer.world.getItemAt(0).source.url, document.baseURI).href : document.location.href;
   }
 
   addAnnotation = (annotation: WebAnnotation) => {

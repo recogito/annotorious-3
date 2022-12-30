@@ -1,6 +1,6 @@
 <script type="ts">
   import { onMount, SvelteComponent } from 'svelte';
-  import { Hover, Store, Selection, EditablePolygon, EditableRectangle, RubberbandPolygon, RubberbandRectangle, ShapeType } from '@annotorious/annotorious';
+  import { Hover, Store, Selection, EditablePolygon, EditableRectangle, RubberbandPolygon, RubberbandRectangle, ShapeType, Env } from '@annotorious/annotorious';
   import type { Shape } from '@annotorious/annotorious';
 
   export let viewer: OpenSeadragon.Viewer;
@@ -34,6 +34,10 @@
     if ($Selection.length > 0)
       currentDrawingTool = null;
   }
+
+  $: mySelection = $Selection.filter(shape => shape.state.isSelectedBy === Env.currentUser.id);
+
+  $: console.log('selection', $Selection);
 
   const onUpdateViewport = () => {
     // Keep SVG layer in sync with OSD state
@@ -89,11 +93,11 @@
 
 <svg 
   class="a9s-gl-drawing-pane" 
-  class:active={$Selection.length > 0 || Boolean(currentDrawingTool)}
+  class:active={mySelection.length > 0 || Boolean(currentDrawingTool)}
   bind:this={svgElement}>
   <g transform={transform}>
-    {#if $Selection.length > 0}
-      {#each $Selection as selected}
+    {#if mySelection.length > 0}
+      {#each mySelection as selected}
         {#if selected.type === ShapeType.RECTANGLE}
           <EditableRectangle
             shape={cast(selected)} 

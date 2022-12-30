@@ -92,15 +92,11 @@
     });
 
     canvas.addEventListener('pointerdown', () => {
-      // Helper: checks if the selection contains this ID
-      const isSelected = (id: string) => 
-        $Selection.find(shape => shape.id === id);
-
       // De-selects all selected shapes
       const deselectAll = () => $Selection.forEach(shape => 
         Store.setState(shape.id, { isSelectedBy: undefined }));
 
-      if ($Hover && !isSelected($Hover.id)) {
+      if ($Hover && !$Hover.state.isSelectedBy) {
         deselectAll();
         Selection.select($Hover);
       } else if (!$Hover) {
@@ -136,8 +132,6 @@
     });
 
     changes.updated.forEach(({ oldValue, newValue }) => {
-      console.log('change!', oldValue, newValue);
-
       if ((oldValue.state.isSelectedBy === Env.currentUser.id) && !(newValue.state.isSelectedBy === Env.currentUser.id)) {
         // Deselect - restore shape
         drawShape(newValue);

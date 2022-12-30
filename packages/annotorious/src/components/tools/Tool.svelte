@@ -65,6 +65,8 @@
   }
 
   onMount(() => {
+    console.log('mounting tool');
+    
     initialShape = shape;
 
     const onKeyDown = (evt: KeyboardEvent) => {

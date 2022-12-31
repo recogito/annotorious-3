@@ -42,6 +42,10 @@ export const observe = (storage, source) => {
       const o = oldValue && stripHover(oldValue);
       const n = newValue && stripHover(newValue);
 
+      // Ignore updates where only hover state has changed
+      if (equal(o, n))
+        return;
+
       if (!o.state.isSelectedBy && n.state.isSelectedBy) {
         // This shape was selected
         selected[n.id] = n;

@@ -91,8 +91,6 @@ class WSSharedDoc extends Y.Doc {
   startWatching = () => {
     const fn  = observe(this.storage, this.name);
 
-    console.log('Adding Y.Doc change observer');
-
     const map = this.getMap();
     map.observe(event => {
       const { keys } = event.changes;
@@ -120,7 +118,6 @@ class WSSharedDoc extends Y.Doc {
   }
 
   setAnnotations = annotations => {
-    console.log('setting annotations:', annotations);
     const map = this.getMap();
     annotations.forEach(a => map.set(a.id, a));
   }
@@ -137,7 +134,6 @@ const getYDoc = (docname, storage, gc = true) => map.setIfUndefined(docs, docnam
   const doc = new WSSharedDoc(docname, storage);
   doc.gc = gc;
   
-  console.log('Initializing Y.Doc from database');
   storage.load(docname).then(annotations => { 
     // Load annotations from database
     doc.setAnnotations(annotations);
@@ -196,16 +192,6 @@ const closeConn = (doc, conn) => {
     const controlledIds = doc.conns.get(conn)
     doc.conns.delete(conn)
     awarenessProtocol.removeAwarenessStates(doc.awareness, Array.from(controlledIds), null)
-
-    /*
-    if (doc.conns.size === 0 && persistence !== null) {
-      // if persisted, we store state and destroy ydocument
-      persistence.writeState(doc.name, doc).then(() => {
-        doc.destroy()
-      })
-      docs.delete(doc.name)
-    }
-    */
   }
   conn.close()
 }
